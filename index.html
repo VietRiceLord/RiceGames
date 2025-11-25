@@ -197,73 +197,75 @@ hr {
 
 <script>
 /* GAME LIST */
+const games = [
 {
-title: "Sandboxels",
-logo: "https://cdn.jsdelivr.net/gh/R74nCom/sandboxels@main/icons/apple-touch-icon-precomposed.png",
-featured: true,
-url: "https://cdn.jsdelivr.net/gh/VietRiceLord/RiceGames@main/game/sandboxels.html"
+    title: "Sandboxels",
+    logo: "https://cdn.jsdelivr.net/gh/R74nCom/sandboxels@main/icons/apple-touch-icon-precomposed.png",
+    featured: true,
+    url: "https://cdn.jsdelivr.net/gh/VietRiceLord/RiceGames@main/game/sandboxels.html"
 },
 {
-title: "Bitlife",
-logo: "https://cdn.jsdelivr.net/gh/Bangreynov/BitLife-Simulator-Game@main/logo.png",
-featured: false,
-url: "https://cdn.jsdelivr.net/gh/VietRiceLord/RiceGames@main/game/bitlife.html"
+    title: "Bitlife",
+    logo: "https://cdn.jsdelivr.net/gh/Bangreynov/BitLife-Simulator-Game@main/logo.png",
+    featured: false,
+    url: "https://cdn.jsdelivr.net/gh/VietRiceLord/RiceGames@main/game/bitlife.html"
 },
 {
-title: "Angry Birds",
-logo: "https://en.wikipedia.org/wiki/File:Angry_Birds_promo_art.png",
-featured: false,
-url: "https://cdn.jsdelivr.net/gh/VietRiceLord/RiceGames@main/game/clangrybirds.html"
+    title: "Angry Birds",
+    logo: "https://cdn.jsdelivr.net/gh/VietRiceLord/RiceGames@main/game/icons/angrybirds.png",
+    featured: false,
+    url: "https://cdn.jsdelivr.net/gh/VietRiceLord/RiceGames@main/game/clangrybirds.html"
 },
 {
-title: "Slope",
-logo: "https://cdn.jsdelivr.net/gh/3kh0/3kh0-lite@main/projects/slope/slope4.jpeg",
-featured: true,
-url: "https://cdn.jsdelivr.net/gh/VietRiceLord/RiceGames@main/game/clslopeplus.html"
+    title: "Slope",
+    logo: "https://cdn.jsdelivr.net/gh/3kh0/3kh0-lite@main/projects/slope/slope4.jpeg",
+    featured: true,
+    url: "https://cdn.jsdelivr.net/gh/VietRiceLord/RiceGames@main/game/clslopeplus.html"
 },
 {
-title: "Friday Night Funkin",
-logo: "https://cdn.jsdelivr.net/gh/ChillYTT/radon-games-assets@main/src/friday-night-funkin--vs-ex/favicon.png",
-featured: true,
-url: "https://cdn.jsdelivr.net/gh/VietRiceLord/RiceGames@main/game/clfridaynightfunkin.html"
+    title: "Friday Night Funkin",
+    logo: "https://cdn.jsdelivr.net/gh/ChillYTT/radon-games-assets@main/src/friday-night-funkin--vs-ex/favicon.png",
+    featured: true,
+    url: "https://cdn.jsdelivr.net/gh/VietRiceLord/RiceGames@main/game/clfridaynightfunkin.html"
 },
 {
-title: "Subway Surfers China",
-logo: "https://static.wikia.nocookie.net/subwaysurf/images/4/44/Beijing2020Icon.png/revision/latest?cb=20200123110659",
-featured: true,
-url: "https://cdn.jsdelivr.net/gh/VietRiceLord/RiceGames@main/game/clsubwaysurfersbeijing.html"
+    title: "Subway Surfers China",
+    logo: "https://static.wikia.nocookie.net/subwaysurf/images/4/44/Beijing2020Icon.png",
+    featured: true,
+    url: "https://cdn.jsdelivr.net/gh/VietRiceLord/RiceGames@main/game/clsubwaysurfersbeijing.html"
 },
 {
-title: "99 Nights In A Forrest Ripoff",
-logo: "images/slope.jpg",
-featured: false,
-url: "https://cdn.jsdelivr.net/gh/VietRiceLord/RiceGames@main/game/cl99nightsitf.html"
+    title: "99 Nights In A Forrest Ripoff",
+    logo: "https://cdn.jsdelivr.net/gh/VietRiceLord/RiceGames@main/images/slope.jpg",
+    featured: false,
+    url: "https://cdn.jsdelivr.net/gh/VietRiceLord/RiceGames@main/game/cl99nightsitf.html"
 },
 {
-title: "RetroBowl",
-logo: "https://cdn.jsdelivr.net/gh/beforeblazergithub/BlazerGames@main/images/retro-bowl.jpg",
-featured: true,
-url: "https://cdn.jsdelivr.net/gh/VietRiceLord/RiceGames@main/game/clretrobowl.html"
+    title: "RetroBowl",
+    logo: "https://cdn.jsdelivr.net/gh/beforeblazergithub/BlazerGames@main/images/retro-bowl.jpg",
+    featured: true,
+    url: "https://cdn.jsdelivr.net/gh/VietRiceLord/RiceGames@main/game/clretrobowl.html"
 },
 {
-title: "Stick Fighter",
-logo: "images/slope.jpg",
-featured: true,
-url: "https://cdn.jsdelivr.net/gh/VietRiceLord/RiceGames@main/game/clstickfighter.html"
+    title: "Stick Fighter",
+    logo: "https://cdn.jsdelivr.net/gh/VietRiceLord/RiceGames@main/images/slope.jpg",
+    featured: true,
+    url: "https://cdn.jsdelivr.net/gh/VietRiceLord/RiceGames@main/game/clstickfighter.html"
 },
 {
-title: "Stickman Kombat 2D",
-logo: "images/slope.jpg",
-featured: true,
-url: "https://cdn.jsdelivr.net/gh/VietRiceLord/RiceGames@main/game/clstickmankombat2d.html"
+    title: "Stickman Kombat 2D",
+    logo: "https://cdn.jsdelivr.net/gh/VietRiceLord/RiceGames@main/images/slope.jpg",
+    featured: true,
+    url: "https://cdn.jsdelivr.net/gh/VietRiceLord/RiceGames@main/game/clstickmankombat2d.html"
 },
 {
-title: "Territorialio.io",
-logo: "images/slope.jpg",
-featured: true,
-url: "https://cdn.jsdelivr.net/gh/VietRiceLord/RiceGames@main/game/clterritorialio.html"
+    title: "Territorialio.io",
+    logo: "https://cdn.jsdelivr.net/gh/VietRiceLord/RiceGames@main/images/slope.jpg",
+    featured: true,
+    url: "https://cdn.jsdelivr.net/gh/VietRiceLord/RiceGames@main/game/clterritorialio.html"
 }
 ];
+
 
 const gamesList = document.getElementById("gamesList");
 const searchBar = document.getElementById("searchBar");

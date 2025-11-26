@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ultraviolet Proxy - CDN Example</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .input-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #4CAF50;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+        #output {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            min-height: 200px;
+            display: none;
+        }
+        #output.active {
+            display: block;
+        }
+        .error {
+            color: #d32f2f;
+            background-color: #ffebee;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        .success {
+            color: #388e3c;
+            background-color: #e8f5e8;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        .loading {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+        }
+        .info-box {
+            background-color: #e3f2fd;
+            border: 1px solid #1976d2;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        .info-box h3 {
+            margin-top: 0;
+            color: #1976d2;
+        }
+        .code-block {
+            background-color: #f5f5f5;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 10px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🌐 Ultraviolet Proxy - CDN Example</h1>
+        
+        <div class="info-box">
+            <h3>About This Example</h3>
+            <p>This page demonstrates how to use Ultraviolet proxy with all components loaded via CDN (jsDelivr). 
+               Ultraviolet is a sophisticated web proxy that can bypass internet censorship and access websites in a controlled sandbox.</p>
+        </div>
+
+        <div class="input-group">
+            <label for="urlInput">Enter URL to proxy:</label>
+            <input type="text" id="urlInput" placeholder="https://example.com" value="https://httpbin.org/get">
+        </div>
+
+        <div class="input-group">
+            <label for="proxyUrlInput">Proxy Service URL (optional):</label>
+            <input type="text" id="proxyUrlInput" placeholder="Leave empty to use default" value="">
+        </div>
+
+        <button id="proxyBtn" onclick="startProxy()">Start Proxy</button>
+        
+        <div id="output"></div>
+    </div>
+
+    <!-- Load Ultraviolet and dependencies from CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@titaniumnetwork-dev/ultraviolet@3.2.10/dist/uv.bundle.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@titaniumnetwork-dev/ultraviolet@3.2.10/dist/uv.config.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@titaniumnetwork-dev/ultraviolet@3.2.10/dist/uv.sw.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@titaniumnetwork-dev/ultraviolet@3.2.10/dist/uv.client.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@titaniumnetwork-dev/ultraviolet@3.2.10/dist/uv.handler.js"></script>
+    
+    <script>
+        // Global configuration
+        let ultraviolet;
+        let uvClient;
+        
+        // Initialize Ultraviolet when page loads
+        window.addEventListener('load', async function() {
+            try {
+                console.log('Initializing Ultraviolet proxy...');
+                
+                // Configure Ultraviolet
+                self.__uv$config = {
+                    prefix: '/service/',
+                    encodeUrl: Ultraviolet.codec.xor.encode,
+                    decodeUrl: Ultraviolet.codec.xor.decode,
+                    handler: 'https://cdn.jsdelivr.net/npm/@titaniumnetwork-dev/ultraviolet@3.2.10/dist/uv.handler.js',
+                    client: 'https://cdn.jsdelivr.net/npm/@titaniumnetwork-dev/ultraviolet@3.2.10/dist/uv.client.js',
+                    bundle: 'https://cdn.jsdelivr.net/npm/@titaniumnetwork-dev/ultraviolet@3.2.10/dist/uv.bundle.js',
+                    config: 'https://cdn.jsdelivr.net/npm/@titaniumnetwork-dev/ultraviolet@3.2.10/dist/uv.config.js',
+                    sw: 'https://cdn.jsdelivr.net/npm/@titaniumnetwork-dev/ultraviolet@3.2.10/dist/uv.sw.js',
+                };
+                
+                // Initialize Ultraviolet instance
+                ultraviolet = new Ultraviolet(self.__uv$config);
+                
+                // Initialize UVClient
+                uvClient = new UVClient(window, new Ultraviolet.BareClient(), false);
+                
+                console.log('Ultraviolet initialized successfully!');
+                showOutput('Ultraviolet proxy initialized successfully!', 'success');
+                
+            } catch (error) {
+                console.error('Failed to initialize Ultraviolet:', error);
+                showOutput(`Failed to initialize Ultraviolet: ${error.message}`, 'error');
+            }
+        });
+        
+        async function startProxy() {
+            const urlInput = document.getElementById('urlInput');
+            const proxyUrlInput = document.getElementById('proxyUrlInput');
+            const output = document.getElementById('output');
+            const proxyBtn = document.getElementById('proxyBtn');
+            
+            const targetUrl = urlInput.value.trim();
+            const proxyServiceUrl = proxyUrlInput.value.trim();
+            
+            if (!targetUrl) {
+                showOutput('Please enter a URL to proxy', 'error');
+                return;
+            }
+            
+            if (!isValidUrl(targetUrl)) {
+                showOutput('Please enter a valid URL', 'error');
+                return;
+            }
+            
+            try {
+                proxyBtn.disabled = true;
+                proxyBtn.textContent = 'Proxying...';
+                showOutput('Starting proxy request...', 'loading');
+                
+                // Rewrite the URL using Ultraviolet
+                const rewrittenUrl = ultraviolet.rewriteUrl(targetUrl);
+                console.log('Original URL:', targetUrl);
+                console.log('Rewritten URL:', rewrittenUrl);
+                
+                // Make the proxied request
+                const response = await fetch(rewrittenUrl, {
+                    method: 'GET',
+                    headers: {
+                        'User-Agent': navigator.userAgent
+                    }
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                const contentType = response.headers.get('content-type');
+                let result;
+                
+                if (contentType && contentType.includes('application/json')) {
+                    const data = await response.json();
+                    result = JSON.stringify(data, null, 2);
+                } else if (contentType && contentType.includes('text/')) {
+                    result = await response.text();
+                } else {
+                    result = `Binary content (${contentType || 'unknown type'}) - ${response.headers.get('content-length') || 'unknown size'} bytes`;
+                }
+                
+                showOutput(`
+                    <strong>Proxy Request Successful!</strong><br>
+                    <strong>Original URL:</strong> ${targetUrl}<br>
+                    <strong>Proxied URL:</strong> ${rewrittenUrl}<br>
+                    <strong>Status:</strong> ${response.status} ${response.statusText}<br>
+                    <strong>Content-Type:</strong> ${contentType || 'unknown'}<br><br>
+                    <strong>Response:</strong><br>
+                    <div class="code-block">${escapeHtml(result)}</div>
+                `, 'success');
+                
+            } catch (error) {
+                console.error('Proxy request failed:', error);
+                showOutput(`
+                    <strong>Proxy Request Failed</strong><br>
+                    <strong>Error:</strong> ${error.message}<br>
+                    <strong>Target URL:</strong> ${targetUrl}<br><br>
+                    <strong>Troubleshooting tips:</strong><br>
+                    • Check if the target URL is accessible<br>
+                    • Verify your internet connection<br>
+                    • Try a different URL<br>
+                    • Check browser console for detailed error information
+                `, 'error');
+            } finally {
+                proxyBtn.disabled = false;
+                proxyBtn.textContent = 'Start Proxy';
+            }
+        }
+        
+        function showOutput(message, type = '') {
+            const output = document.getElementById('output');
+            output.innerHTML = message;
+            output.className = type;
+            output.classList.add('active');
+        }
+        
+        function isValidUrl(string) {
+            try {
+                new URL(string);
+                return true;
+            } catch (_) {
+                return false;
+            }
+        }
+        
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+        
+        // Example usage and documentation
+        console.log(`
+╔══════════════════════════════════════════════════════════════════════════════════╗
+║                              Ultraviolet Proxy CDN                                ║
+║                                                                                   ║
+║  This example demonstrates using Ultraviolet with all components via CDN:        ║
+║  • uv.bundle.js - Main Ultraviolet bundle                                        ║
+║  • uv.config.js - Configuration file                                             ║
+║  • uv.sw.js - Service worker script                                              ║
+║  • uv.client.js - Client-side proxy functionality                                ║
+║  • uv.handler.js - Request handler                                               ║
+║                                                                                   ║
+║  Usage:                                                                           ║
+║  1. Enter a URL in the input field                                                ║
+║  2. Click "Start Proxy" to make a proxied request                                ║
+║  3. View the results below                                                        ║
+║                                                                                   ║
+║  Note: This is a basic demonstration. For production use, consider:              ║
+║  • Setting up your own proxy server                                                ║
+║  • Implementing proper error handling                                              ║
+║  • Adding security measures                                                        ║
+║  • Handling different content types appropriately                                  ║
+╚══════════════════════════════════════════════════════════════════════════════════╝
+        `);
+    </script>
+</body>
+</html>

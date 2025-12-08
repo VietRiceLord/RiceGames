@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Draggable Bookmarklet Button</title>
+<style>
+  :root{
+    --bg: #0f172a;
+    --accent: #7c5cff;
+    --glass: rgba(255,255,255,0.06);
+    --txt: #e6eef8;
+  }
+  body{
+    margin:0;
+    font-family:system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;
+    min-height:100vh;
+    background: linear-gradient(180deg,#04102b 0%, #071430 100%);
+    color:var(--txt);
+    display:flex;
+    align-items:flex-start;
+    justify-content:center;
+    padding:24px;
+  }
+
+  /* container for the draggable widget */
+  .bookmark-widget{
+    position:fixed;
+    top:24px;
+    right:24px;
+    z-index:99999;
+    user-select:none;
+    cursor:grab;
+    width:220px;
+    border-radius:12px;
+    background: linear-gradient(135deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    box-shadow: 0 6px 22px rgba(1,6,18,0.6), inset 0 1px 0 rgba(255,255,255,0.02);
+    padding:10px;
+    backdrop-filter: blur(6px);
+  }
+
+  .header{
+    display:flex;
+    gap:8px;
+    align-items:center;
+  }
+  .logo{
+    width:36px; height:36px; border-radius:8px;
+    background: linear-gradient(135deg, var(--accent), #5bb1ff);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:700;
+    color:white;
+    font-size:14px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.35);
+  }
+  h4{margin:0;font-size:14px}
+  p.sub{margin:0;font-size:12px;color:rgba(230,238,248,0.75)}
+
+  .controls{display:flex; gap:8px; margin-top:10px; align-items:center;}
+  .btn, .link-btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    padding:8px 10px;
+    border-radius:8px;
+    border:0;
+    font-size:13px;
+    background:var(--glass);
+    color:var(--txt);
+    cursor:pointer;
+    transition:transform .08s ease, box-shadow .08s ease;
+  }
+  .btn:active{ transform:translateY(1px); }
+  .link-btn{
+    text-decoration:none;
+    white-space:nowrap;
+  }
+  .small{ padding:6px 8px; font-size:12px }
+
+  .drag-handle{ margin-left:auto; opacity:0.6; font-size:12px }
+  .info{ margin-top:10px; font-size:12px; color:rgba(230,238,248,0.8) }
+
+  /* helper for desktop-visible draggable-link */
+  .drag-target{
+    display:flex;
+    gap:8px;
+    align-items:center;
+    margin-top:10px;
+    padding:8px;
+    border-radius:8px;
+    background:rgba(255,255,255,0.02);
+  }
+
+  code{background:rgba(255,255,255,0.03); padding:2px 6px; border-radius:6px; font-size:12px}
+</style>
+</head>
+<body>
+
+<div class="bookmark-widget" id="widget">
+  <div class="header">
+    <div class="logo">B</div>
+    <div>
+      <h4>Draggable Bookmarklet</h4>
+      <p class="sub">t9os / blooket.js</p>
+    </div>
+    <div class="drag-handle" id="grab">≡</div>
+  </div>
+
+  <div class="controls">
+    <!-- The in-page interactive button that injects the script immediately -->
+    <button class="btn" id="injectBtn" title="Inject the remote script into this page">
+      ▶ Inject
+    </button>
+
+    <!-- A link styled like a button: user can drag this to the browser bookmarks bar (desktop) -->
+    <a href="#" id="bookmarkletLink" class="btn link-btn small" draggable="true" title="Drag this to your bookmarks bar (desktop)">
+      ⤓ Drag to bookmarks
+    </a>
+
+    <!-- copy button -->
+    <button class="btn small" id="copyBtn" title="Copy one-line bookmarklet">
+      ⧉ Copy
+    </button>
+  </div>
+
+  <div class="drag-target">
+    <div style="flex:1">
+      <div class="info">URL:</div>
+      <code id="scriptUrl">https://cdn.jsdelivr.net/gh/t9lat22/t9os@master/blooket.js</code>
+    </div>
+  </div>
+</div>
+
+<script>
+/* --------------- configuration --------------- */
+const REMOTE = 'https://cdn.jsdelivr.net/gh/t9lat22/t9os@master/blooket.js';
+
+/* --------------- bookmarklet (one-line) --------------- */
+/* a compact, safe loader that appends the remote script */
+const rawBookmarklet = "javascript:(function(){var s=document.createElement('script');s.src='" + REMOTE + "';s.onload=function(){console.log('blooket.js loaded');};document.head.appendChild(s);})();";
+
+/* url-encoded bookmarklet (safer for some browsers) */
+const encodedBookmarklet = 'javascript:' + encodeURIComponent("(function(){var s=document.createElement('script');s.src='" + REMOTE + "';s.onload=function(){console.log('blooket.js loaded')};document.head.appendChild(s)})()");
+
+/* --------------- UI wiring --------------- */
+const injectBtn = document.getElementById('injectBtn');
+const bookmarkletLink = document.getElementById('bookmarkletLink');
+const copyBtn = document.getElementById('copyBtn');
+const scriptUrlEl = document.getElementById('scriptUrl');
+
+scriptUrlEl.textContent = REMOTE;
+
+/* immediate inject on page */
+injectBtn.addEventListener('click', () => {
+  try {
+    const s = document.createElement('script');
+    s.src = REMOTE;
+    s.onload = () => { alert('Script loaded'); };
+    s.onerror = () => { alert('Failed to load script — check the URL or network.'); };
+    document.head.appendChild(s);
+  } catch (e) {
+    alert('Error: ' + e.message);
+  }
+});
+
+/* make the a[href] a bookmarklet link */
+bookmarkletLink.href = rawBookmarklet;
+
+/* allow dragging the link to the bookmarks bar (desktop) */
+bookmarkletLink.addEventListener('dragstart', (ev) => {
+  // put the raw bookmarklet href in the drag payload (makes dragging to the bookmarks bar possible in many desktop browsers)
+  ev.dataTransfer.setData('text/plain', rawBookmarklet);
+  // some browsers prefer 'text/uri-list'
+  ev.dataTransfer.setData('text/uri-list', rawBookmarklet);
+});
+
+/* copy bookmarklet to clipboard */
+copyBtn.addEventListener('click', async () => {
+  try {
+    await navigator.clipboard.writeText(rawBookmarklet);
+    copyBtn.textContent = 'Copied ✓';
+    setTimeout(()=> copyBtn.textContent = '⧉ Copy', 1300);
+  } catch (e) {
+    // fallback
+    prompt('Copy this bookmarklet manually:', rawBookmarklet);
+  }
+});
+
+/* --------------- draggable widget (move anywhere) --------------- */
+(function makeWidgetDraggable() {
+  const widget = document.getElementById('widget');
+  const handle = document.getElementById('grab') || widget;
+
+  let isPointerDown = false;
+  let startX=0, startY=0, origX=0, origY=0;
+
+  // try pointer events first (desktop & touch)
+  handle.addEventListener('pointerdown', (ev) => {
+    isPointerDown = true;
+    handle.setPointerCapture(ev.pointerId);
+    startX = ev.clientX;
+    startY = ev.clientY;
+    // compute original position (from computed style)
+    const rect = widget.getBoundingClientRect();
+    origX = rect.left;
+    origY = rect.top;
+    widget.style.transition = 'none';
+    widget.style.cursor = 'grabbing';
+  });
+
+  window.addEventListener('pointermove', (ev) => {
+    if (!isPointerDown) return;
+    const dx = ev.clientX - startX;
+    const dy = ev.clientY - startY;
+    const newLeft = Math.max(8, Math.min(window.innerWidth - widget.offsetWidth - 8, origX + dx));
+    const newTop  = Math.max(8, Math.min(window.innerHeight - widget.offsetHeight - 8, origY + dy));
+    widget.style.left = newLeft + 'px';
+    widget.style.top = newTop + 'px';
+    widget.style.right = 'auto';
+    widget.style.position = 'fixed';
+  });
+
+  window.addEventListener('pointerup', (ev) => {
+    if (!isPointerDown) return;
+    isPointerDown = false;
+    try { handle.releasePointerCapture(ev.pointerId); } catch(e){}
+    widget.style.cursor = 'grab';
+    widget.style.transition = '';
+  });
+
+  // keyboard friendly: quick reset to top-right with 'r' while focused somewhere
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'r') {
+      widget.style.top = '24px';
+      widget.style.right = '24px';
+      widget.style.left = 'auto';
+    }
+  });
+})();
+
+</script>
+</body>
+</html>

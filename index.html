@@ -1,139 +1,162 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Rice Games</title>
+
+<!-- Fonts & Icons (CDN SAFE) -->
 <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.2.0/css/all.css">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&display=swap');
+/* ================= GLOBAL ================= */
+
+* {
+    box-sizing: border-box;
+}
 
 body {
-    background-color: #0b0f1c;
-    font-family: 'Montserrat', sans-serif;
     margin: 0;
+    font-family: 'Montserrat', sans-serif;
     color: #e6eaff;
+    background:
+        radial-gradient(circle at 20% 20%, rgba(80,140,255,0.15), transparent 40%),
+        radial-gradient(circle at 80% 60%, rgba(140,80,255,0.15), transparent 45%),
+        radial-gradient(circle at 50% 100%, rgba(0,255,200,0.08), transparent 50%),
+        #070b16;
+    background-attachment: fixed;
+    overflow-x: hidden;
 }
+
+/* ================= STARFIELD ================= */
+
+#stars {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background-image:
+        radial-gradient(2px 2px at 20% 30%, #9bdcff, transparent),
+        radial-gradient(1px 1px at 80% 70%, #ffffff, transparent),
+        radial-gradient(2px 2px at 50% 50%, #7aa2ff, transparent),
+        radial-gradient(1px 1px at 10% 80%, #ffffff, transparent);
+    animation: drift 120s linear infinite;
+}
+
+@keyframes drift {
+    from { background-position: 0 0; }
+    to { background-position: 1000px 2000px; }
+}
+
+/* ================= NAV ================= */
 
 nav {
     position: fixed;
     top: 0;
-    left: 0;
-    backdrop-filter: blur(12px) saturate(180%) brightness(80%);
-    background: rgba(20, 30, 60, 0.35);
-    display: flex;
-    height: 7vw;
     width: 100%;
+    height: 6vw;
+    min-height: 60px;
+    display: flex;
     align-items: center;
-    padding: 0 1%;
+    padding: 0 2vw;
+    backdrop-filter: blur(14px);
+    background: rgba(15,25,55,0.45);
+    border-bottom: 1px solid rgba(120,180,255,0.2);
     z-index: 10;
-    border-bottom: 1px solid rgba(255,255,255,0.1);
 }
 
 nav img {
-    height: 80%;
-    border-radius: 1vw;
-    margin-right: 1%;
-    box-shadow: 0 0 18px rgba(0, 153, 255, 0.35);
+    height: 70%;
+    border-radius: 0.8vw;
+    margin-right: 1vw;
+    box-shadow: 0 0 20px rgba(90,160,255,0.5);
 }
 
 nav h1 {
-    font-size: 4vw;
+    font-size: 2.8vw;
     font-weight: 900;
-    background: linear-gradient(90deg, #6cbcff, #2c7ffc);
+    background: linear-gradient(90deg, #7ecbff, #4d7cff);
     -webkit-background-clip: text;
     color: transparent;
 }
 
+/* ================= CONTENT ================= */
+
 .content {
-    padding: 12vw 2vw 2vw;
+    padding: 9vw 3vw 3vw;
+    max-width: 1700px;
+    margin: auto;
 }
 
-hr {
-    border: 0;
-    height: 3px;
-    background-image: linear-gradient(to right, rgba(0, 0, 0, 0), #fff, rgba(0, 0, 0, 0));
-}
+/* ================= SEARCH ================= */
 
 .search {
     display: flex;
-    margin-top: 2vw;
+    margin-bottom: 2vw;
 }
 
 .search input {
-    background-color: #141c2b;
-    border: none;
-    border-radius: 1vw 0 0 1vw;
-    color: #fff;
-    font-size: 1.5vw;
-    padding: 0.8vw 1.5vw;
+    flex: 1;
+    padding: 0.9vw 1.4vw;
+    background: rgba(20,30,60,0.7);
+    border: 1px solid rgba(120,180,255,0.3);
+    color: white;
+    border-radius: 0.8vw 0 0 0.8vw;
     outline: none;
-    width: 60%;
+    backdrop-filter: blur(8px);
 }
 
 .search button {
-    background: linear-gradient(90deg, #2c7ffc, #6cbcff);
-    border-radius: 0 1vw 1vw 0;
-    color: #0a0f1c;
-    font-size: 1.5vw;
-    padding: 0.8vw 1.2vw;
+    padding: 0.9vw 1.4vw;
+    background: linear-gradient(90deg, #4d7cff, #7ecbff);
+    border: none;
+    border-radius: 0 0.8vw 0.8vw 0;
     cursor: pointer;
+    box-shadow: 0 0 18px rgba(100,170,255,0.5);
 }
 
+/* ================= FEATURED SLIDER ================= */
+
 #featuredSlider {
-    width: 100%;
-    margin: 2vw 0 3vw;
+    margin-bottom: 3vw;
     position: relative;
-    overflow: hidden;
 }
 
 .slider-viewport {
     overflow: hidden;
-    width: 100%;
 }
 
 .slider-track {
     display: flex;
-    gap: 1.6vw;
+    gap: 1vw;
     transition: transform 0.45s cubic-bezier(.22,.9,.31,1);
-    will-change: transform;
-    padding-bottom: 0.6vw;
 }
 
-/* slide size: square-ish covers */
 .slide {
-    min-width: 14.8vw; /* three-ish slides visible */
-    max-width: 14.8vw;
-    height: 14.8vw;
-    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.15));
+    min-width: 13vw;
+    height: 13vw;
     border-radius: 1vw;
-    border: 1px solid rgba(255,255,255,0.06);
-    position: relative;
-    cursor: pointer;
     overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    border: 1px solid rgba(120,180,255,0.25);
+    cursor: pointer;
+    position: relative;
+    background: #0d152c;
 }
 
 .slide img {
-    width:100%;
-    height:100%;
+    width: 100%;
+    height: 100%;
     object-fit: cover;
-    display: block;
 }
 
 .slide .label {
     position: absolute;
-    bottom: 0.6vw;
-    left: 0.6vw;
-    right: 0.6vw;
-    padding: 0.5vw 0.8vw;
-    background: linear-gradient(180deg, rgba(0,0,0,0.0), rgba(0,0,0,0.6));
-    color: #e6f2ff;
+    bottom: 0;
+    width: 100%;
+    padding: 0.6vw;
+    background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
     font-weight: 700;
-    font-size: 1vw;
-    border-radius: 0.6vw;
+    font-size: 0.9vw;
     text-align: center;
 }
 
@@ -141,150 +164,139 @@ hr {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    font-size: 2.2vw;
-    color: white;
-    background: rgba(20,30,60,0.45);
+    background: rgba(20,30,60,0.6);
     border: none;
-    padding: 0.6vw 1vw;
+    color: white;
+    font-size: 1.8vw;
+    padding: 0.5vw 1vw;
     cursor: pointer;
-    z-index: 5;
-    border-radius: 0.6vw;
-    backdrop-filter: blur(6px);
 }
-#prevSlide { left: 1vw; }
-#nextSlide { right: 1vw; }
 
-.slider-dots {
-    margin-top: 1vw;
-    display:flex;
-    gap: 0.6vw;
-    justify-content:center;
-}
-.slider-dot {
-    width: 1.1vw;
-    height: 1.1vw;
-    border-radius: 999px;
-    background: rgba(255,255,255,0.12);
-    cursor: pointer;
-}
-.slider-dot.active { background: #78c2ff; }
+#prevSlide { left: 0.5vw; }
+#nextSlide { right: 0.5vw; }
+
+/* ================= GAME GRID ================= */
 
 #gamesList {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    margin-top: 2vw;
-    gap: 2vw;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 1.2vw;
 }
 
 .gameCard {
-    background: #141c2b;
-    border-radius: 1vw;
-    padding: 1vw;
-    width: 17vw;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    background: linear-gradient(180deg, #10182d, #0b1222);
+    border-radius: 0.9vw;
+    padding: 0.7vw;
     cursor: pointer;
-    transition: 0.2s;
-    border: 1px solid rgba(255,255,255,0.08);
+    border: 1px solid rgba(120,180,255,0.15);
+    transition: all 0.25s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.gameCard::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(120deg, transparent, rgba(120,180,255,0.12), transparent);
+    opacity: 0;
+}
+
+.gameCard:hover::before {
+    opacity: 1;
 }
 
 .gameCard:hover {
-    transform: scale(1.04);
-    box-shadow: 0 0 20px rgba(60,150,255,0.25);
+    transform: translateY(-4px) scale(1.04);
+    box-shadow: 0 0 25px rgba(80,160,255,0.35);
+    border-color: rgba(120,200,255,0.5);
 }
 
 .gameCard img {
     width: 100%;
-    height: 14vw;
+    height: 7.8vw;
     object-fit: cover;
-    border-radius: 0.8vw;
+    border-radius: 0.6vw;
 }
 
 .gameTitle {
-    font-size: 1.4vw;
+    margin-top: 0.5vw;
+    font-size: 0.9vw;
     font-weight: 700;
     text-align: center;
-    color: #cfe2ff;
-    margin-top: 0.7vw;
 }
 
-/* GAME PLAYER WINDOW */
+/* ================= PLAYER ================= */
+
 #playerScreen {
     display: none;
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: #000;
+    inset: 0;
+    background: black;
+    z-index: 50;
     flex-direction: column;
-    z-index: 20;
 }
 
 #playerTop {
-    height: 5vw;
+    height: 4vw;
     display: flex;
     align-items: center;
     padding: 0 1vw;
-    background: rgba(255,255,255,0.06);
-    border-bottom: 1px solid rgba(255,255,255,0.1);
+    background: rgba(20,30,60,0.7);
 }
 
 #playerTop button {
     margin-right: 1vw;
-    padding: 0.6vw 1.4vw;
-    border-radius: 0.6vw;
-    cursor: pointer;
-    background: #1c2744;
-    border: 1px solid rgba(255,255,255,0.2);
+    padding: 0.5vw 1.2vw;
+    background: #1b264a;
+    border: 1px solid rgba(120,180,255,0.4);
     color: white;
+    cursor: pointer;
+    border-radius: 0.6vw;
 }
 
 #gameFrame {
     flex: 1;
-    width: 100%;
-    height: 100%;
     border: none;
 }
 
-/* responsive tweaks */
+/* ================= MOBILE ================= */
+
 @media (max-width: 900px) {
-    .slide { min-width: 38vw; max-width: 38vw; height: 38vw; }
-    .gameCard { width: 42vw; }
-    nav h1 { font-size: 5.5vw; }
+    nav h1 { font-size: 6vw; }
+    .slide { min-width: 42vw; height: 42vw; }
+    .gameCard img { height: 30vw; }
+    .gameTitle { font-size: 3.2vw; }
 }
 </style>
 </head>
+
 <body>
 
+<div id="stars"></div>
+
 <nav>
-    <img src="https://cdn.jsdelivr.net/gh/VietRiceLord/RiceGames@main/IMG_2078.jpeg" alt="logo">
+    <img src="https://cdn.jsdelivr.net/gh/VietRiceLord/RiceGames@main/IMG_2078.jpeg">
     <h1>Rice Games</h1>
 </nav>
 
 <div class="content">
-    <hr>
 
-    <div class="search">
-        <input id="searchBar" type="text" placeholder="Search games...">
-        <button><i class="fas fa-search"></i></button>
+<div class="search">
+    <input id="searchBar" placeholder="Search games...">
+    <button><i class="fas fa-search"></i></button>
+</div>
+
+<div id="featuredSlider">
+    <button id="prevSlide" class="slider-btn"><i class="fa-solid fa-chevron-left"></i></button>
+    <button id="nextSlide" class="slider-btn"><i class="fa-solid fa-chevron-right"></i></button>
+    <div class="slider-viewport">
+        <div class="slider-track" id="sliderTrack"></div>
     </div>
+</div>
 
-    <!-- FEATURED SLIDER (BETWEEN SEARCH AND GRID) -->
-    <div id="featuredSlider" aria-label="Featured games carousel">
-        <button id="prevSlide" class="slider-btn" aria-label="Previous"><i class="fa-solid fa-chevron-left"></i></button>
-        <button id="nextSlide" class="slider-btn" aria-label="Next"><i class="fa-solid fa-chevron-right"></i></button>
+<div id="gamesList"></div>
 
-        <div class="slider-viewport">
-            <div class="slider-track" id="sliderTrack"></div>
-        </div>
-
-        <div class="slider-dots" id="sliderDots" aria-hidden="false"></div>
-    </div>
-
-    <div id="gamesList"></div>
 </div>
 
 <div id="playerScreen">
@@ -293,10 +305,8 @@ hr {
         <button id="fullscreenBtn">Fullscreen</button>
         <button id="openAB">Open in about:blank</button>
     </div>
-
     <iframe id="gameFrame"></iframe>
 </div>
-
 <script>
 /* GAME LIST */
 const games = [

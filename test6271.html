@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rice Games</title>
+
+<!-- Fonts & Icons (CDN SAFE) -->
+<link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.2.0/css/all.css">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+
+<style>
+/* ================= GLOBAL ================= */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: 'Montserrat', sans-serif;
+    color: #e6eaff;
+    background:
+        radial-gradient(circle at 20% 20%, rgba(80,140,255,0.15), transparent 40%),
+        radial-gradient(circle at 80% 60%, rgba(140,80,255,0.15), transparent 45%),
+        radial-gradient(circle at 50% 100%, rgba(0,255,200,0.08), transparent 50%),
+        #070b16;
+    background-attachment: fixed;
+    overflow-x: hidden;
+}
+
+/* ================= STARFIELD ================= */
+
+#stars {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background-image:
+        radial-gradient(2px 2px at 20% 30%, #9bdcff, transparent),
+        radial-gradient(1px 1px at 80% 70%, #ffffff, transparent),
+        radial-gradient(2px 2px at 50% 50%, #7aa2ff, transparent),
+        radial-gradient(1px 1px at 10% 80%, #ffffff, transparent);
+    animation: drift 120s linear infinite;
+}
+
+@keyframes drift {
+    from { background-position: 0 0; }
+    to { background-position: 1000px 2000px; }
+}
+
+/* ================= NAV ================= */
+
+nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 6vw;
+    min-height: 60px;
+    display: flex;
+    align-items: center;
+    padding: 0 2vw;
+    backdrop-filter: blur(14px);
+    background: rgba(15,25,55,0.45);
+    border-bottom: 1px solid rgba(120,180,255,0.2);
+    z-index: 10;
+}
+
+nav img {
+    height: 70%;
+    border-radius: 0.8vw;
+    margin-right: 1vw;
+    box-shadow: 0 0 20px rgba(90,160,255,0.5);
+}
+
+nav h1 {
+    font-size: 2.8vw;
+    font-weight: 900;
+    background: linear-gradient(90deg, #7ecbff, #4d7cff);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+/* ================= CONTENT ================= */
+
+.content {
+    padding: 9vw 3vw 3vw;
+    max-width: 1700px;
+    margin: auto;
+}
+
+/* ================= SEARCH ================= */
+
+.search {
+    display: flex;
+    margin-bottom: 2vw;
+}
+
+.search input {
+    flex: 1;
+    padding: 0.9vw 1.4vw;
+    background: rgba(20,30,60,0.7);
+    border: 1px solid rgba(120,180,255,0.3);
+    color: white;
+    border-radius: 0.8vw 0 0 0.8vw;
+    outline: none;
+    backdrop-filter: blur(8px);
+}
+
+.search button {
+    padding: 0.9vw 1.4vw;
+    background: linear-gradient(90deg, #4d7cff, #7ecbff);
+    border: none;
+    border-radius: 0 0.8vw 0.8vw 0;
+    cursor: pointer;
+    box-shadow: 0 0 18px rgba(100,170,255,0.5);
+}
+
+/* ================= FEATURED SLIDER ================= */
+
+#featuredSlider {
+    margin-bottom: 3vw;
+    position: relative;
+}
+
+.slider-viewport {
+    overflow: hidden;
+}
+
+.slider-track {
+    display: flex;
+    gap: 1vw;
+    transition: transform 0.45s cubic-bezier(.22,.9,.31,1);
+}
+
+.slide {
+    min-width: 13vw;
+    height: 13vw;
+    border-radius: 1vw;
+    overflow: hidden;
+    border: 1px solid rgba(120,180,255,0.25);
+    cursor: pointer;
+    position: relative;
+    background: #0d152c;
+}
+
+.slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.slide .label {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 0.6vw;
+    background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+    font-weight: 700;
+    font-size: 0.9vw;
+    text-align: center;
+}
+
+.slider-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(20,30,60,0.6);
+    border: none;
+    color: white;
+    font-size: 1.8vw;
+    padding: 0.5vw 1vw;
+    cursor: pointer;
+}
+
+#prevSlide { left: 0.5vw; }
+#nextSlide { right: 0.5vw; }
+
+/* ================= GAME GRID ================= */
+
+#gamesList {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 1.2vw;
+}
+
+.gameCard {
+    background: linear-gradient(180deg, #10182d, #0b1222);
+    border-radius: 0.9vw;
+    padding: 0.7vw;
+    cursor: pointer;
+    border: 1px solid rgba(120,180,255,0.15);
+    transition: all 0.25s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.gameCard::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(120deg, transparent, rgba(120,180,255,0.12), transparent);
+    opacity: 0;
+}
+
+.gameCard:hover::before {
+    opacity: 1;
+}
+
+.gameCard:hover {
+    transform: translateY(-4px) scale(1.04);
+    box-shadow: 0 0 25px rgba(80,160,255,0.35);
+    border-color: rgba(120,200,255,0.5);
+}
+
+.gameCard img {
+    width: 100%;
+    height: 7.8vw;
+    object-fit: cover;
+    border-radius: 0.6vw;
+}
+
+.gameTitle {
+    margin-top: 0.5vw;
+    font-size: 0.9vw;
+    font-weight: 700;
+    text-align: center;
+}
+
+/* ================= PLAYER ================= */
+
+#playerScreen {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: black;
+    z-index: 50;
+    flex-direction: column;
+}
+
+#playerTop {
+    height: 4vw;
+    display: flex;
+    align-items: center;
+    padding: 0 1vw;
+    background: rgba(20,30,60,0.7);
+}
+
+#playerTop button {
+    margin-right: 1vw;
+    padding: 0.5vw 1.2vw;
+    background: #1b264a;
+    border: 1px solid rgba(120,180,255,0.4);
+    color: white;
+    cursor: pointer;
+    border-radius: 0.6vw;
+}
+
+#gameFrame {
+    flex: 1;
+    border: none;
+}
+
+/* ================= MOBILE ================= */
+
+@media (max-width: 900px) {
+    nav h1 { font-size: 6vw; }
+    .slide { min-width: 42vw; height: 42vw; }
+    .gameCard img { height: 30vw; }
+    .gameTitle { font-size: 3.2vw; }
+}
+</style>
+</head>
+
+<body>
+
+<div id="stars"></div>
+
+<nav>
+    <img src="https://cdn.jsdelivr.net/gh/VietRiceLord/RiceGames@main/IMG_2078.jpeg">
+    <h1>Rice Games</h1>
+</nav>
+
+<div class="content">
+
+<div class="search">
+    <input id="searchBar" placeholder="Search games...">
+    <button><i class="fas fa-search"></i></button>
+</div>
+
+<div id="featuredSlider">
+    <button id="prevSlide" class="slider-btn"><i class="fa-solid fa-chevron-left"></i></button>
+    <button id="nextSlide" class="slider-btn"><i class="fa-solid fa-chevron-right"></i></button>
+    <div class="slider-viewport">
+        <div class="slider-track" id="sliderTrack"></div>
+    </div>
+</div>
+
+<div id="gamesList"></div>
+
+</div>
+
+<div id="playerScreen">
+    <div id="playerTop">
+        <button id="backBtn">Back</button>
+        <button id="fullscreenBtn">Fullscreen</button>
+        <button id="openAB">Open in about:blank</button>
+    </div>
+    <iframe id="gameFrame"></iframe>
+</div>
+<script>
+/* GAME LIST */
+const games = [
+{
+    title: "Sandboxels",
+    logo: "https://cdn.jsdelivr.net/gh/R74nCom/sandboxels@main/icons/apple-touch-icon-precomposed.png",
+    featured: false,
+    url: "https://cdn.jsdelivr.net/gh/VietRiceLord/RiceGames@main/game/sandboxels.html"
+},
+{
+    title: "Bitlife",
+    logo: "https://cdn.jsdelivr.net/gh/Bangreynov/BitLife-Simulator-Game@main/logo.png",
+    featured: false,
+    url: "https://cdn.jsdelivr.net/gh/VietRiceLord/RiceGames@main/game/bitlife.html"
+},
+{
+    title: "Angry Birds",
+    logo: "https://cdn.jsdelivr.net/gh/VietRiceLord/RiceGames@main/gamelogos/Angrybirds.jpeg",
+    featured: false,
+    url: "https://cdn.jsdelivr.net/gh/VietRiceLord/RiceGames@main/game/clangrybirds.html"
+},
+{
+    title: "Slope",
+    logo: "https://cdn.jsdelivr.net/gh/3kh0/3kh0-lite@main/projects/slope/slope4.jpeg",
+    featured: true,
+    url: "https://cdn.jsdelivr.net/gh/VietRiceLord/RiceGames@main/game/clslopeplus.html"
+},
+{
+    title: "Friday Night Funkin",
+    logo: "https://cdn.jsdelivr.net/gh/ChillYTT/radon-games-assets@main/src/friday-night-funkin--vs-ex/favicon.png",
+    featured: true,
+    url: "https://cdn.jsdelivr.net/gh/VietRiceLord/RiceGames@main/game/clfridaynightfunkin.html"
+},
+{
+    title: "Subway Surfers China",
+    logo: "https://cdn.jsdelivr.net/gh/VietRiceLord/RiceGames@main/gamelogos/subway.webp",
+    featured: true,
+    url: "https://cdn.jsdelivr.net/gh/VietRiceLord/RiceGames@main/game/clsubwaysurfersbeijing.html"
+},
+{
+    title: "99 Nights In A Forrest Ripoff",
+    logo: "https://cdn.jsdelivr.net/gh/VietRiceLord/RiceGames@main/gamelogos/99nights.webp",
+    featured: false,
+    url: "https://cdn.jsdelivr.net/gh/VietRiceLord/RiceGames@main/game/cl99nightsitf.html"
+},
+{
+    title: "RetroBowl",
+    logo: "https://cdn.jsdelivr.net/gh/beforeblazergithub/BlazerGames@main/images/retro-bowl.jpg",
+    featured: true,
+    url: "https://cdn.jsdelivr.net/gh/VietRiceLord/RiceGames@main/game/clretrobowl.html"
+},
+{
+    title: "Stick Fighter",
+    logo: "https://cdn.jsdelivr.net/gh/VietRiceLord/RiceGames@main/gamelogos/",
+    featured: false,
+    url: "https://cdn.jsdelivr.net/gh/VietRiceLord/RiceGames@main/game/clstickfighter.html"
+},
+{
+    title: "Stickman Kombat 2D",
+    logo: "https://cdn.jsdelivr.net/gh/VietRiceLord/RiceGames@main/gamelogos/stickmankom2.jpeg",
+    featured: false,
+    url: "https://cdn.jsdelivr.net/gh/VietRiceLord/RiceGames@main/game/clstickmankombat2d.html"
+},
+{
+    title: "Territorialio.io",
+    logo: "https://cdn.jsdelivr.net/gh/VietRiceLord/RiceGames@main/gamelogos/territory.jpeg",
+    featured: true,
+    url: "https://cdn.jsdelivr.net/gh/VietRiceLord/RiceGames@main/game/clterritorialio.html"
+},
+{
+    title: "EagleCraft (OPEN IN A:B)",
+    logo: "https://cdn.jsdelivr.net/gh/lDEVinux/eaglercraft@main/lwjgl-rundir/resources/title/eagtek.png",
+    featured: false,
+    url: "https://cdn.jsdelivr.net/gh/VietRiceLord/RiceGames@main/game/Minecraft 1.12.2.html"
+},
+{
+    title: "1v1.lol (OPEN IN A:B)",
+    logo: "https://cdn.jsdelivr.net/gh/VietRiceLord/RiceGames@main/gamelogo/",
+    featured: true,
+    url: "https://cdn.jsdelivr.net/gh/VietRiceLord/RiceGames@main/game/cl1v1lol.html"
+},
+{
+    title: "Grow A Garden",
+    logo: "https://cdn.jsdelivr.net/gh/VietRiceLord/RiceGames@main/gamelogo/",
+    featured: true,
+    url: "https://cdn.jsdelivr.net/gh/VietRiceLord/RiceGames@main/game/clgrowagarden.html"
+},
+{
+    title: "CS GO CLICKER",
+    logo: "https://cdn.jsdelivr.net/gh/VietRiceLord/RiceGames@main/IMG_2078.jpeg",
+    featured: true,
+    url: "https://cdn.jsdelivr.net/gh/VietRiceLord/RiceGames@main/game/clcsgoclicker.html"
+},
+{
+    title: "Solar Smash",
+    logo: "https://cdn.jsdelivr.net/gh/VietRiceLord/RiceGames@main/IMG_2078.jpeg",
+    featured: true,
+    url: "https://cdn.jsdelivr.net/gh/VietRiceLord/RiceGames@main/game/clsolarsmash.html"
+},
+{
+    title: "Doge Miner",
+    logo: "https://cdn.jsdelivr.net/gh/VietRiceLord/RiceGames@main/IMG_2078.jpeg",
+    featured: true,
+    url: "https://cdn.jsdelivr.net/gh/VietRiceLord/RiceGames@main/game/cldogeminer.html"
+},
+{
+    title: "Baldi Basics Remastered",
+    logo: "https://cdn.jsdelivr.net/gh/VietRiceLord/RiceGames@main/IMG_2078.jpeg",
+    featured: true,
+    url: "https://cdn.jsdelivr.net/gh/VietRiceLord/RiceGames@main/game/Baldi's Basics Classic Remastered.html"
+},
+{
+    title: "Bendy Ink Machine",
+    logo: "https://cdn.jsdelivr.net/gh/VietRiceLord/RiceGames@main/IMG_2078.jpeg",
+    featured: true,
+    url: "https://cdn.jsdelivr.net/gh/VietRiceLord/RiceGames@main/game/Bendy and the Ink Machine.html"
+},
+
+{
+    title: "FNAF",
+    logo: "https://cdn.jsdelivr.net/gh/VietRiceLord/RiceGames@main/IMG_2078.jpeg",
+    featured: true,
+    url: "https://cdn.jsdelivr.net/gh/VietRiceLord/RiceGames@main/game/Five Nights at Freddy's.html"
+},
+{
+    title: "Adventure Capitalist",
+    logo: "https://cdn.jsdelivr.net/gh/VietRiceLord/RiceGames@main/IMG_2078.jpeg",
+    featured: true,
+    url: "https://cdn.jsdelivr.net/gh/VietRiceLord/RiceGames@main/game/Adventure Capatalist.html"
+},
+{
+    title: "DONT YOU LECTURE ME ON MY 30 DOLLAR HAIRCUT (soundboard)",
+    logo: "https://cdn.jsdelivr.net/gh/VietRiceLord/RiceGames@main/IMG_2078.jpeg",
+    featured: true,
+    url: "https://cdn.jsdelivr.net/gh/VietRiceLord/RiceGames@main/game/DON'T YOU LECTURE ME.html"
+},
+{
+    title: "Minecraft 1.21.4",
+    logo: "https://cdn.jsdelivr.net/gh/VietRiceLord/RiceGames@main/IMG_2078.jpeg",
+    featured: true,
+    url: "https://cdn.jsdelivr.net/gh/VietRiceLord/RiceGames@main/game/Minecraft 1.21.4.html"
+},
+{
+    title: "Granny",
+    logo: "https://cdn.jsdelivr.net/gh/VietRiceLord/RiceGames@main/IMG_2078.jpeg",
+    featured: true,
+    url: "https://cdn.jsdelivr.net/gh/VietRiceLord/RiceGames@main/game/Granny.html"
+},
+{
+    title: "Geometry Dash Lite",
+    logo: "https://cdn.jsdelivr.net/gh/VietRiceLord/RiceGames@main/IMG_2078.jpeg",
+    featured: true,
+    url: "https://cdn.jsdelivr.net/gh/VietRiceLord/RiceGames@main/game/Geometry Dash Lite.html"
+},
+{
+    title: "People Playground",
+    logo: "https://cdn.jsdelivr.net/gh/VietRiceLord/RiceGames@main/IMG_2078.jpeg",
+    featured: true,
+    url: "https://cdn.jsdelivr.net/gh/VietRiceLord/RiceGames@main/game/People Playground.html"
+},
+{
+    title: "TattleTale",
+    logo: "https://cdn.jsdelivr.net/gh/VietRiceLord/RiceGames@main/IMG_2078.jpeg",
+    featured: true,
+    url: "https://cdn.jsdelivr.net/gh/VietRiceLord/RiceGames@main/game/Tattletail.html"
+},
+{
+    title: "Temple Run 2",
+    logo: "https://cdn.jsdelivr.net/gh/VietRiceLord/RiceGames@main/IMG_2078.jpeg",
+    featured: true,
+    url: "https://cdn.jsdelivr.net/gh/VietRiceLord/RiceGames@main/game/Temple Run 2.html"
+}
+];
+
+const gamesList = document.getElementById("gamesList");
+const searchBar = document.getElementById("searchBar");
+const playerScreen = document.getElementById("playerScreen");
+const frame = document.getElementById("gameFrame");
+
+/* CACHE GAME HTML */
+async function getGameHTML(url) {
+    const key = "cache_" + url;
+    let cached = localStorage.getItem(key);
+    if (cached) return cached;
+
+    const res = await fetch(url + "?v=" + Date.now());
+    const html = await res.text();
+    localStorage.setItem(key, html);
+    return html;
+}
+
+/* RENDER GAME CARDS */
+function render(list) {
+    gamesList.innerHTML = "";
+    list.forEach(g => {
+        const card = document.createElement("div");
+        card.className = "gameCard";
+
+        card.innerHTML = `
+            <img src="${g.logo}" onerror="this.src='https://cdn.jsdelivr.net/gh/VietRiceLord/RiceGames@main/gamelogos/placeholder.png'">
+            <div class="gameTitle">${g.title}</div>
+        `;
+
+        card.onclick = () => openGame(g);
+        gamesList.appendChild(card);
+    });
+}
+
+/* LOAD GAME IN PAGE */
+async function openGame(game) {
+    playerScreen.style.display = "flex";
+
+    const html = await getGameHTML(game.url);
+
+    // write into iframe
+    try {
+        frame.contentDocument.open();
+        frame.contentDocument.write(html);
+        frame.contentDocument.close();
+    } catch (e) {
+        // fallback: set src to CDN if cross-origin blocks writing
+        frame.src = game.url + "?v=" + Date.now();
+    }
+
+    document.getElementById("openAB").onclick = () => openABGame(game.url);
+    document.getElementById("fullscreenBtn").onclick = toggleFullscreen;
+}
+
+/* OPEN GAME IN ABOUT:BLANK */
+async function openABGame(url) {
+    const html = await getGameHTML(url);
+    const win = window.open("about:blank", "_blank");
+
+    win.document.open();
+    win.document.write(html);
+    win.document.close();
+}
+
+/* FULLSCREEN */
+function toggleFullscreen() {
+    if (!document.fullscreenElement) frame.requestFullscreen();
+    else document.exitFullscreen();
+}
+
+/* BACK BUTTON */
+document.getElementById("backBtn").onclick = () => {
+    playerScreen.style.display = "none";
+    frame.src = "about:blank";
+};
+
+/* SEARCH */
+searchBar.oninput = () => {
+    const q = searchBar.value.toLowerCase();
+    render(games.filter(g => g.title.toLowerCase().includes(q)));
+};
+
+/* INITIAL LOAD */
+render(games);
+
+/* ---------- FEATURED SLIDER LOGIC ---------- */
+
+const sliderTrack = document.getElementById('sliderTrack');
+const sliderDots = document.getElementById('sliderDots');
+const prevBtn = document.getElementById('prevSlide');
+const nextBtn = document.getElementById('nextSlide');
+
+let featuredGames = games.filter(g => g.featured);
+let slideIndex = 0;
+let autoSlideTimer = null;
+let isPaused = false;
+
+// build slides
+function buildSlider() {
+    sliderTrack.innerHTML = '';
+    sliderDots.innerHTML = '';
+
+    if (featuredGames.length === 0) {
+        document.getElementById('featuredSlider').style.display = 'none';
+        return;
+    }
+
+    featuredGames.forEach((g, i) => {
+        const slide = document.createElement('div');
+        slide.className = 'slide';
+        slide.dataset.index = i;
+
+        const img = document.createElement('img');
+        img.src = g.logo || 'https://cdn.jsdelivr.net/gh/VietRiceLord/RiceGames@main/gamelogos/placeholder.png';
+        img.alt = g.title;
+        img.onerror = () => img.src = 'https://cdn.jsdelivr.net/gh/VietRiceLord/RiceGames@main/gamelogos/placeholder.png';
+
+        const label = document.createElement('div');
+        label.className = 'label';
+        label.textContent = g.title;
+
+        slide.appendChild(img);
+        slide.appendChild(label);
+
+        // click opens the game (uses existing openGame)
+        slide.addEventListener('click', () => {
+            openGame(g);
+        });
+
+        sliderTrack.appendChild(slide);
+
+        // dots
+        const dot = document.createElement('div');
+        dot.className = 'slider-dot';
+        dot.dataset.index = i;
+        dot.addEventListener('click', () => {
+            goToSlide(i);
+            restartAutoSlide();
+        });
+        sliderDots.appendChild(dot);
+    });
+
+    updateSlider();
+}
+
+// calculate and set transform for current index
+function updateSlider() {
+    const slides = sliderTrack.querySelectorAll('.slide');
+    const slideCount = slides.length;
+    if (slideCount === 0) return;
+
+    // show approx 3 slides in view on desktop, centered via transform calc
+    const slideWidth = slides[0].getBoundingClientRect().width + parseFloat(getComputedStyle(sliderTrack).gap || 16);
+    const viewportWidth = document.querySelector('.slider-viewport').clientWidth;
+    // calculate offset so active slide sits left of centerish (gives preview to right)
+    const visibleCount = Math.floor(viewportWidth / slideWidth) || 1;
+    let offset = 0;
+
+    // Clamp index
+    if (slideIndex < 0) slideIndex = slideCount - 1;
+    if (slideIndex >= slideCount) slideIndex = 0;
+
+    // center-ish: move transform so slideIndex is first visible when possible
+    offset = slideIndex * slideWidth;
+
+    sliderTrack.style.transform = `translateX(${-offset}px)`;
+
+    // update dots
+    sliderDots.querySelectorAll('.slider-dot').forEach(d => d.classList.remove('active'));
+    const activeDot = sliderDots.querySelector(`.slider-dot[data-index="${slideIndex}"]`);
+    if (activeDot) activeDot.classList.add('active');
+}
+
+// navigation
+function prevSlide() { slideIndex = (slideIndex - 1 + featuredGames.length) % featuredGames.length; updateSlider(); restartAutoSlide(); }
+function nextSlide() { slideIndex = (slideIndex + 1) % featuredGames.length; updateSlider(); restartAutoSlide(); }
+function goToSlide(i) { slideIndex = i % featuredGames.length; updateSlider(); }
+
+// auto slide
+function startAutoSlide() {
+    stopAutoSlide();
+    autoSlideTimer = setInterval(() => {
+        if (!isPaused) nextSlide();
+    }, 4000);
+}
+function stopAutoSlide() { if (autoSlideTimer) clearInterval(autoSlideTimer); autoSlideTimer = null; }
+function restartAutoSlide() { stopAutoSlide(); startAutoSlide(); }
+
+// pause on hover
+document.getElementById('featuredSlider').addEventListener('mouseenter', () => isPaused = true);
+document.getElementById('featuredSlider').addEventListener('mouseleave', () => isPaused = false);
+
+// arrow events
+prevBtn.addEventListener('click', prevSlide);
+nextBtn.addEventListener('click', nextSlide);
+
+// touch / swipe support
+let pointerStartX = 0;
+let pointerDeltaX = 0;
+let isPointerDown = false;
+
+sliderTrack.addEventListener('pointerdown', (e) => {
+    isPointerDown = true;
+    pointerStartX = e.clientX;
+    sliderTrack.style.transition = 'none';
+    e.target.setPointerCapture(e.pointerId);
+});
+window.addEventListener('pointermove', (e) => {
+    if (!isPointerDown) return;
+    pointerDeltaX = e.clientX - pointerStartX;
+    sliderTrack.style.transform = `translateX(${ - (slideIndex * (sliderTrack.querySelector('.slide').getBoundingClientRect().width + parseFloat(getComputedStyle(sliderTrack).gap || 16))) + pointerDeltaX }px)`;
+});
+window.addEventListener('pointerup', (e) => {
+    if (!isPointerDown) return;
+    isPointerDown = false;
+    sliderTrack.style.transition = 'transform 0.45s cubic-bezier(.22,.9,.31,1)';
+    if (Math.abs(pointerDeltaX) > 50) {
+        if (pointerDeltaX < 0) nextSlide();
+        else prevSlide();
+    } else {
+        updateSlider();
+    }
+    pointerDeltaX = 0;
+});
+
+// handle resize to keep layout correct
+window.addEventListener('resize', () => { updateSlider(); });
+
+// initialize slider after DOM + images have loaded so sizes are correct
+window.addEventListener('load', () => {
+    buildSlider();
+    startAutoSlide();
+});
+
+/* ---------- end slider logic ---------- */
+</script>
+
+</body>
+</html>

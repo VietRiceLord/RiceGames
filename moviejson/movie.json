@@ -9,7 +9,7 @@
   {
     "type": "tv",
     "title": "Death Note",
-    "poster": "https://cdn.jsdelivr.net/gh/VietRiceLord/RiceGames@main/IMG_2078.jpeg",
+    "poster": "https://en.wikipedia.org/wiki/Death_Note#/media/File:Death_Note_Vol_1.jpg",
     "featured": true,
     "seasons": [
       {
@@ -20,8 +20,24 @@
             "url": "https://files.catbox.moe/2oq6pi.mp4"
           },
           {
-            "title": "Cat's in the Bag",
-            "url": "https://example.com/bb/s1e2.html"
+            "title": "Confrontation",
+            "url": "https://files.catbox.moe/ez64mo.mp4"
+          },
+          {
+            "title": "Dealings",
+            "url": "https://files.catbox.moe/162gg1.mp4"
+          },
+          {
+            "title": "Pursuit",
+            "url": "https://files.catbox.moe/gfptob.mp4"
+          },
+          {
+            "title": "Tactics",
+            "url": "https://files.catbox.moe/3q86ww.mp4"
+          },
+          {
+            "title": "Unraveling",
+            "url": "https://files.catbox.moe/riov5l.mp4"
           }
         ]
       }

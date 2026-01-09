@@ -12,67 +12,34 @@ body {
     margin: 0;
     font-family: Arial, sans-serif;
     color: #e6eaff;
-    background:
-        radial-gradient(circle at 20% 20%, rgba(80,140,255,0.15), transparent 40%),
-        radial-gradient(circle at 80% 60%, rgba(140,80,255,0.15), transparent 45%),
-        #070b16;
-    background-attachment: fixed;
+    background: #070b16;
 }
 
-/* STARFIELD */
-#stars {
-    position: fixed;
-    inset: 0;
-    z-index: -1;
-    background-image:
-        radial-gradient(2px 2px at 20% 30%, #9bdcff, transparent),
-        radial-gradient(1px 1px at 80% 70%, #fff, transparent),
-        radial-gradient(2px 2px at 50% 50%, #7aa2ff, transparent);
-    animation: drift 120s linear infinite;
-}
-@keyframes drift {
-    from { background-position: 0 0; }
-    to { background-position: 1200px 2000px; }
-}
-
-/* NAV */
 nav {
     padding: 16px 20px;
-    background: rgba(15,25,55,0.55);
+    background: rgba(15,25,55,0.6);
     backdrop-filter: blur(14px);
     display: flex;
-    align-items: center;
     gap: 15px;
 }
 
-nav span {
-    font-size: 1.3rem;
-    font-weight: bold;
-}
-
-/* SEARCH */
 #search {
     flex: 1;
     padding: 10px 14px;
     background: #0e1630;
-    border: 1px solid rgba(120,180,255,0.4);
+    border: 1px solid rgba(120,180,255,.4);
     color: white;
     border-radius: 10px;
-    outline: none;
 }
 
-h3 {
-    padding: 0 20px;
-    margin-top: 24px;
-}
+h3 { padding: 0 20px; }
 
-/* FEATURED SLIDER */
+/* FEATURED */
 #featured {
     display: flex;
     gap: 14px;
     padding: 20px;
     overflow-x: auto;
-    scroll-behavior: smooth;
 }
 
 /* GRID */
@@ -85,18 +52,17 @@ h3 {
 
 /* CARD */
 .card {
-    background: linear-gradient(180deg, #10182d, #0b1222);
+    background: #0e1630;
     border-radius: 12px;
     padding: 8px;
     cursor: pointer;
-    border: 1px solid rgba(120,180,255,0.15);
-    transition: 0.25s;
+    border: 1px solid rgba(120,180,255,.15);
+    transition: .25s;
 }
 
 .card:hover {
-    transform: translateY(-4px) scale(1.07);
-    box-shadow: 0 0 35px rgba(100,180,255,0.7);
-    border-color: rgba(140,220,255,0.8);
+    transform: scale(1.07);
+    box-shadow: 0 0 25px rgba(100,180,255,.6);
 }
 
 .card img {
@@ -108,9 +74,8 @@ h3 {
 
 .card div {
     margin-top: 6px;
-    font-size: 0.9rem;
-    font-weight: bold;
     text-align: center;
+    font-size: .9rem;
 }
 
 /* PLAYER */
@@ -125,18 +90,15 @@ h3 {
 
 #playerTop {
     padding: 10px;
-    background: rgba(20,30,60,0.8);
-    display: flex;
-    gap: 10px;
+    background: rgba(20,30,60,.85);
 }
 
 #playerTop button {
     padding: 8px 14px;
     background: #1b264a;
-    border: 1px solid rgba(120,180,255,0.4);
+    border: 1px solid rgba(120,180,255,.4);
     color: white;
     border-radius: 8px;
-    cursor: pointer;
 }
 
 #player iframe {
@@ -164,34 +126,26 @@ h3 {
     padding: 10px;
     background: #0e1630;
     color: white;
-    border: 1px solid rgba(120,180,255,0.4);
+    border: 1px solid rgba(120,180,255,.4);
     border-radius: 8px;
 }
 
 .episode {
     padding: 14px 20px;
-    border-bottom: 1px solid rgba(120,180,255,0.15);
+    border-bottom: 1px solid rgba(120,180,255,.15);
     cursor: pointer;
 }
 
 .episode:hover {
-    background: rgba(120,180,255,0.15);
-}
-
-/* MOBILE */
-@media (max-width: 900px) {
-    #grid { grid-template-columns: repeat(auto-fill, minmax(42vw, 1fr)); }
-    .card img { height: 42vw; }
+    background: rgba(120,180,255,.15);
 }
 </style>
 </head>
 <body>
 
-<div id="stars"></div>
-
 <nav>
-    <span>Rice Movies</span>
-    <input id="search" placeholder="Search movies or TV shows...">
+    <strong>Rice Movies</strong>
+    <input id="search" placeholder="Search movies or shows...">
 </nav>
 
 <h3>Featured</h3>
@@ -204,9 +158,10 @@ h3 {
 <div id="player">
     <div id="playerTop">
         <button onclick="closePlayer()">Back</button>
+        <button onclick="toggleFullscreen()">Fullscreen</button>
     </div>
     <iframe id="frame"
-        allow="autoplay; fullscreen; picture-in-picture"
+        allow="autoplay; fullscreen"
         allowfullscreen>
     </iframe>
 </div>
@@ -225,8 +180,6 @@ const DATA_URL = "https://cdn.jsdelivr.net/gh/VietRiceLord/RiceGames@main/moviej
 
 let allData = [];
 let currentShow = null;
-let currentSeasonIndex = 0;
-let currentEpisodeIndex = 0;
 
 const featured = document.getElementById("featured");
 const grid = document.getElementById("grid");
@@ -252,13 +205,12 @@ search.oninput = () => {
 
 function renderFeatured(list) {
     featured.innerHTML = "";
-    list.forEach(item => createCard(item, featured));
-    setInterval(() => featured.scrollBy({ left: 200, behavior: "smooth" }), 4000);
+    list.forEach(i => createCard(i, featured));
 }
 
 function renderGrid(list) {
     grid.innerHTML = "";
-    list.forEach(item => createCard(item, grid));
+    list.forEach(i => createCard(i, grid));
 }
 
 function createCard(item, parent) {
@@ -278,6 +230,7 @@ function openItem(item) {
 }
 
 function openPlayer(url) {
+    episodeMenu.style.display = "none";   // FIX
     frame.src = url;
     player.style.display = "flex";
 }
@@ -285,50 +238,40 @@ function openPlayer(url) {
 function closePlayer() {
     frame.src = "";
     player.style.display = "none";
+    if (document.fullscreenElement) document.exitFullscreen();
+}
+
+function toggleFullscreen() {
+    if (!document.fullscreenElement) player.requestFullscreen();
+    else document.exitFullscreen();
 }
 
 function openEpisodes(show) {
     currentShow = show;
     episodeMenu.style.display = "block";
+    episodesDiv.innerHTML = "";
     seasonSelect.innerHTML = "";
 
     show.seasons.forEach((s, i) => {
-        const opt = document.createElement("option");
-        opt.value = i;
-        opt.textContent = "Season " + s.season;
-        seasonSelect.appendChild(opt);
+        const o = document.createElement("option");
+        o.value = i;
+        o.textContent = "Season " + s.season;
+        seasonSelect.appendChild(o);
     });
 
     seasonSelect.onchange = () => loadSeason(+seasonSelect.value);
     loadSeason(0);
 }
 
-function loadSeason(index) {
-    currentSeasonIndex = index;
+function loadSeason(i) {
     episodesDiv.innerHTML = "";
-    currentShow.seasons[index].episodes.forEach((e, i) => {
+    currentShow.seasons[i].episodes.forEach(e => {
         const div = document.createElement("div");
         div.className = "episode";
         div.textContent = e.title;
-        div.onclick = () => {
-            currentEpisodeIndex = i;
-            openPlayer(e.url);
-        };
+        div.onclick = () => openPlayer(e.url); // FIX
         episodesDiv.appendChild(div);
     });
-}
-
-frame.addEventListener("load", () => {
-    frame.contentWindow?.addEventListener("ended", autoNextEpisode);
-});
-
-function autoNextEpisode() {
-    const eps = currentShow?.seasons[currentSeasonIndex]?.episodes;
-    if (!eps) return;
-    currentEpisodeIndex++;
-    if (eps[currentEpisodeIndex]) {
-        openPlayer(eps[currentEpisodeIndex].url);
-    }
 }
 
 function closeEpisodes() {

@@ -6,37 +6,84 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <style>
+:root {
+    --neon-blue: #4fc3ff;
+    --neon-purple: #9b6cff;
+}
+
 body {
     margin: 0;
-    background: #0b0f1c;
+    background: radial-gradient(circle at top, #10162c, #05070f);
     color: white;
     font-family: Arial, sans-serif;
 }
 
+/* NAVBAR */
 nav {
-    padding: 15px;
-    background: rgba(255,255,255,.05);
-    backdrop-filter: blur(10px);
+    padding: 14px 20px;
+    background: rgba(255,255,255,.06);
+    backdrop-filter: blur(12px);
     font-weight: bold;
+    border-bottom: 1px solid rgba(255,255,255,.08);
 }
 
-#featured, #grid {
+/* SECTIONS */
+h3 {
+    margin: 20px 20px 8px;
+    font-size: 16px;
+    color: #cfe6ff;
+}
+
+/* FEATURED */
+#featured {
     display: flex;
-    gap: 16px;
-    padding: 20px;
+    gap: 14px;
+    padding: 0 20px 10px;
     overflow-x: auto;
 }
 
+/* GRID */
+#grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 16px;
+    padding: 0 20px 30px;
+}
+
+/* CARD */
 .card {
-    min-width: 160px;
     cursor: pointer;
+    background: rgba(20,30,60,.6);
+    border-radius: 10px;
+    padding: 6px;
+    transition: 0.25s;
+    border: 1px solid rgba(255,255,255,.08);
 }
 
 .card img {
     width: 100%;
-    border-radius: 12px;
+    height: 165px;
+    object-fit: cover;
+    border-radius: 8px;
 }
 
+.card div {
+    font-size: 12px;
+    text-align: center;
+    margin-top: 6px;
+    color: #dbeaff;
+}
+
+/* NEON HOVER */
+.card:hover {
+    transform: translateY(-4px) scale(1.04);
+    box-shadow:
+        0 0 12px var(--neon-blue),
+        0 0 24px rgba(79,195,255,.5);
+    border-color: var(--neon-blue);
+}
+
+/* PLAYER */
 #player {
     display: none;
     position: fixed;
@@ -47,8 +94,23 @@ nav {
 }
 
 #playerTop {
-    padding: 10px;
+    padding: 8px;
     background: rgba(255,255,255,.08);
+    display: flex;
+    gap: 10px;
+}
+
+#playerTop button {
+    background: #121b3a;
+    border: 1px solid rgba(255,255,255,.2);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+#playerTop button:hover {
+    box-shadow: 0 0 10px var(--neon-purple);
 }
 
 #player iframe {
@@ -56,19 +118,30 @@ nav {
     border: none;
 }
 
+/* EPISODES */
 #episodeMenu {
     display: none;
     position: fixed;
     inset: 0;
-    background: #0b0f1c;
+    background: radial-gradient(circle at top, #10162c, #05070f);
     z-index: 20;
     overflow-y: auto;
+    padding: 15px;
 }
 
 .episode {
-    padding: 12px;
-    border-bottom: 1px solid rgba(255,255,255,.1);
+    padding: 10px 14px;
+    margin-bottom: 6px;
+    background: rgba(20,30,60,.6);
+    border-radius: 8px;
     cursor: pointer;
+    transition: .2s;
+    border: 1px solid rgba(255,255,255,.08);
+}
+
+.episode:hover {
+    box-shadow: 0 0 12px var(--neon-purple);
+    border-color: var(--neon-purple);
 }
 </style>
 </head>
@@ -76,10 +149,10 @@ nav {
 
 <nav>Rice Movies</nav>
 
-<h3 style="padding-left:20px">Featured</h3>
+<h3>Featured</h3>
 <div id="featured"></div>
 
-<h3 style="padding-left:20px">All</h3>
+<h3>All</h3>
 <div id="grid"></div>
 
 <!-- PLAYER -->
@@ -97,7 +170,7 @@ nav {
 </div>
 
 <script>
-const DATA_URL = "https://cdn.jsdelivr.net/gh/VietRiceLord/RiceGames@main/moviejson/movie.json"; // CDN JSON
+const DATA_URL = "https://cdn.jsdelivr.net/gh/VietRiceLord/RiceGames@main/moviejson/movie.json";
 
 const featured = document.getElementById("featured");
 const grid = document.getElementById("grid");
@@ -132,11 +205,8 @@ function createCard(item, parent) {
 }
 
 function openItem(item) {
-    if (item.type === "movie") {
-        openPlayer(item.url);
-    } else {
-        openEpisodes(item);
-    }
+    if (item.type === "movie") openPlayer(item.url);
+    else openEpisodes(item);
 }
 
 function openPlayer(url) {

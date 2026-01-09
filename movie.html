@@ -1,1 +1,180 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Rice Movies</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
+<style>
+body {
+    margin: 0;
+    background: #0b0f1c;
+    color: white;
+    font-family: Arial, sans-serif;
+}
+
+nav {
+    padding: 15px;
+    background: rgba(255,255,255,.05);
+    backdrop-filter: blur(10px);
+    font-weight: bold;
+}
+
+#featured, #grid {
+    display: flex;
+    gap: 16px;
+    padding: 20px;
+    overflow-x: auto;
+}
+
+.card {
+    min-width: 160px;
+    cursor: pointer;
+}
+
+.card img {
+    width: 100%;
+    border-radius: 12px;
+}
+
+#player {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: black;
+    z-index: 10;
+    flex-direction: column;
+}
+
+#playerTop {
+    padding: 10px;
+    background: rgba(255,255,255,.08);
+}
+
+#player iframe {
+    flex: 1;
+    border: none;
+}
+
+#episodeMenu {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: #0b0f1c;
+    z-index: 20;
+    overflow-y: auto;
+}
+
+.episode {
+    padding: 12px;
+    border-bottom: 1px solid rgba(255,255,255,.1);
+    cursor: pointer;
+}
+</style>
+</head>
+<body>
+
+<nav>Rice Movies</nav>
+
+<h3 style="padding-left:20px">Featured</h3>
+<div id="featured"></div>
+
+<h3 style="padding-left:20px">All</h3>
+<div id="grid"></div>
+
+<!-- PLAYER -->
+<div id="player">
+    <div id="playerTop">
+        <button onclick="closePlayer()">Back</button>
+    </div>
+    <iframe id="frame"></iframe>
+</div>
+
+<!-- EPISODE MENU -->
+<div id="episodeMenu">
+    <button onclick="closeEpisodes()">Back</button>
+    <div id="episodes"></div>
+</div>
+
+<script>
+const DATA_URL = "https://example.com/movies.json"; // CDN JSON
+
+const featured = document.getElementById("featured");
+const grid = document.getElementById("grid");
+const player = document.getElementById("player");
+const frame = document.getElementById("frame");
+const episodeMenu = document.getElementById("episodeMenu");
+const episodesDiv = document.getElementById("episodes");
+
+fetch(DATA_URL)
+.then(r => r.json())
+.then(data => {
+    renderFeatured(data.filter(i => i.featured));
+    renderGrid(data);
+});
+
+function renderFeatured(list) {
+    featured.innerHTML = "";
+    list.forEach(item => createCard(item, featured));
+}
+
+function renderGrid(list) {
+    grid.innerHTML = "";
+    list.forEach(item => createCard(item, grid));
+}
+
+function createCard(item, parent) {
+    const div = document.createElement("div");
+    div.className = "card";
+    div.innerHTML = `<img src="${item.poster}"><div>${item.title}</div>`;
+    div.onclick = () => openItem(item);
+    parent.appendChild(div);
+}
+
+function openItem(item) {
+    if (item.type === "movie") {
+        openPlayer(item.url);
+    } else {
+        openEpisodes(item);
+    }
+}
+
+function openPlayer(url) {
+    player.style.display = "flex";
+    frame.src = url;
+}
+
+function closePlayer() {
+    frame.src = "";
+    player.style.display = "none";
+}
+
+function openEpisodes(show) {
+    episodeMenu.style.display = "block";
+    episodesDiv.innerHTML = "";
+
+    show.seasons.forEach(s => {
+        const h = document.createElement("h4");
+        h.textContent = "Season " + s.season;
+        episodesDiv.appendChild(h);
+
+        s.episodes.forEach(e => {
+            const div = document.createElement("div");
+            div.className = "episode";
+            div.textContent = e.title;
+            div.onclick = () => {
+                episodeMenu.style.display = "none";
+                openPlayer(e.url);
+            };
+            episodesDiv.appendChild(div);
+        });
+    });
+}
+
+function closeEpisodes() {
+    episodeMenu.style.display = "none";
+}
+</script>
+
+</body>
+</html>

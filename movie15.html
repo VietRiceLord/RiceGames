@@ -257,6 +257,7 @@ function openItem(item) {
     else openShow(item);
 }
 
+/* MOVIE ONLY */
 function openMovie(url) {
     currentShow = null;
     episodesBtn.style.display = "none";
@@ -268,6 +269,7 @@ function openMovie(url) {
     player.style.display = "flex";
 }
 
+/* TV SHOW */
 function openShow(show) {
     currentShow = show;
     episodesBtn.style.display = "inline-block";
@@ -286,6 +288,7 @@ function openShow(show) {
     loadSeason(0);
 }
 
+/* LOAD EPISODES */
 function loadSeason(i) {
     episodesDiv.innerHTML = "";
     activeEpisodeEl = null;
@@ -295,17 +298,22 @@ function loadSeason(i) {
         div.className = "episode";
         div.textContent = `E${e.episode} • ${e.title}`;
 
-        div.onclick = () => {
-            if (activeEpisodeEl) activeEpisodeEl.classList.remove("active");
-            div.classList.add("active");
-            activeEpisodeEl = div;
-            openMovie(e.url);
-        };
+        div.onclick = () => playEpisode(e.url, div);
 
         episodesDiv.appendChild(div);
 
-        if (idx === 0) div.onclick();
+        if (idx === 0) div.onclick(); // auto-play first episode
     });
+}
+
+/* EPISODE PLAYER (DOES NOT RESET UI) */
+function playEpisode(url, el) {
+    if (activeEpisodeEl) activeEpisodeEl.classList.remove("active");
+    el.classList.add("active");
+    activeEpisodeEl = el;
+
+    frame.src = "";
+    setTimeout(() => frame.src = url, 50);
 }
 
 function toggleSidebar() {
@@ -317,6 +325,7 @@ function closePlayer() {
     frame.src = "";
     player.style.display = "none";
     sidebar.style.display = "none";
+    currentShow = null;
 }
 
 function toggleFullscreen() {
@@ -324,6 +333,7 @@ function toggleFullscreen() {
     else document.exitFullscreen();
 }
 </script>
+
 
 </body>
 </html>

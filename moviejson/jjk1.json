@@ -3,7 +3,7 @@
   "title": "Jujutsu Kaisen",
   "poster": "https://cdn.jsdelivr.net/gh/VietRiceLord/RiceGames@main/movielogo/jjk.webp",
   "featured": true,
-  "seasons": [
+  "seasons": [ 
     {
       "season": 1,
       "episodes": [
@@ -22,8 +22,24 @@
         { "title": "Tomorrow", "url": "https://files.catbox.moe/wug3xm.mp4" },
         { "title": "Kyoto Sister School Exchange Event", "url": "https://files.catbox.moe/daaabp.mp4" },
         { "title": "Kyoto Sister School Exchange Event 1", "url": "https://files.catbox.moe/1m2s9g.mp4" },
-        { "title": "Kyoto Sister School Exchange Event 2", "url": "https://files.catbox.moe/ou7c2l.mp4" }
+        { "title": "Kyoto Sister School Exchange Event 2", "url": "https://files.catbox.moe/ou7c2l.mp4" },
+        { "title": "Kyoto Sister School Exchange Event 3", "url": "https://files.catbox.moe/v3asic.mp4" },
+        { "title": "Sage", "url": "https://files.catbox.moe/qzif6g.mp4" },
+       { "title": "Black Flash", "url": "https://files.catbox.moe/c1c0xb.mp4" },
+        { "title": "Nonstandard", "url": "https://files.catbox.moe/rz2yyp.mp4" },
+        { "title": "Jujutsu Koshien", "url": "https://files.catbox.moe/9xd5j9.mp4" },
+        { "title": "The Orgin Of Blind Obedience", "url": "https://files.catbox.moe/jkdfyf.mp4" },
+        { "title": "The Orgin Of Blind Obedience 2", "url": "https://files.catbox.moe/k2reu2.mp4" },
+        { "title": "Accomplices", "url": "https://files.catbox.moe/xlojei.mp4" }
       ]
+    },
+    {
+      "season": 2,
+      "episodes": [
+        { "title": "Ryomen Sukuna", "url": "https://files.catbox.moe/xskmnw.mp4" }
+      ]
+      
     }
   ]
 }
+

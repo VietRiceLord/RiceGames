@@ -13,7 +13,6 @@ body {
     font-family: Arial, sans-serif;
     background: #070b16;
     color: #e6eaff;
-    overflow-y: auto;
 }
 
 /* NAV */
@@ -22,7 +21,6 @@ nav {
     background: rgba(15,25,55,0.6);
     backdrop-filter: blur(14px);
     display: flex;
-    align-items: center;
     gap: 15px;
     position: sticky;
     top: 0;
@@ -38,9 +36,7 @@ nav {
     border-radius: 10px;
 }
 
-h3 {
-    padding: 0 20px;
-}
+h3 { padding: 0 20px; }
 
 /* FEATURED */
 #featured {
@@ -86,7 +82,7 @@ h3 {
     font-size: .85rem;
 }
 
-/* PLAYER OVERLAY */
+/* PLAYER */
 #player {
     display: none;
     position: fixed;
@@ -120,13 +116,12 @@ h3 {
     overflow: hidden;
 }
 
-/* VIDEO */
 #frame {
     flex: 1;
     border: none;
 }
 
-/* EPISODE SIDEBAR */
+/* SIDEBAR */
 #sidebar {
     width: 300px;
     background: #0b122a;
@@ -137,12 +132,10 @@ h3 {
 
 #sidebarHeader {
     padding: 12px;
-    display: flex;
-    gap: 8px;
 }
 
 #seasonSelect {
-    flex: 1;
+    width: 100%;
     padding: 8px;
     background: #0e1630;
     color: white;
@@ -165,16 +158,8 @@ h3 {
     background: rgba(120,180,255,.15);
 }
 
-/* ACTIVE EPISODE (SPACE TECH BLUE) */
 .episode.active {
-    background: linear-gradient(
-        135deg,
-        rgba(80,140,255,0.35),
-        rgba(40,90,200,0.55)
-    );
-    box-shadow:
-        inset 0 0 12px rgba(120,180,255,.8),
-        0 0 18px rgba(90,160,255,.7);
+    background: linear-gradient(135deg, rgba(80,140,255,.35), rgba(40,90,200,.55));
     border-left: 4px solid #6fb2ff;
     font-weight: bold;
 }
@@ -198,7 +183,7 @@ h3 {
 <div id="player">
     <div id="playerTop">
         <button onclick="closePlayer()">Back</button>
-        <button onclick="toggleSidebar()">Episodes</button>
+        <button id="episodesBtn" onclick="toggleSidebar()">Episodes</button>
         <button onclick="toggleFullscreen()">Fullscreen</button>
     </div>
 
@@ -215,7 +200,8 @@ h3 {
 </div>
 
 <script>
-const SOURCES_URL = "https://cdn.jsdelivr.net/gh/VietRiceLord/RiceGames@main/moviejson/moviesources4.json";
+const SOURCES_URL =
+  "https://cdn.jsdelivr.net/gh/VietRiceLord/RiceGames@main/moviejson/moviesources4.json?cache=" + Date.now();
 
 let allData = [];
 let currentShow = null;
@@ -230,24 +216,23 @@ const frame = document.getElementById("frame");
 const sidebar = document.getElementById("sidebar");
 const episodesDiv = document.getElementById("episodes");
 const seasonSelect = document.getElementById("seasonSelect");
+const episodesBtn = document.getElementById("episodesBtn");
 
-/* FETCH JSONS */
+/* FETCH */
 fetch(SOURCES_URL)
     .then(r => r.json())
-    .then(urls => Promise.all(urls.map(url => fetch(url).then(r => r.json()))))
+    .then(urls => Promise.all(urls.map(u => fetch(u).then(r => r.json()))))
     .then(results => {
         allData = results.flat();
         renderFeatured(allData.filter(i => i.featured));
         renderGrid(allData);
     });
 
-/* SEARCH */
 search.oninput = () => {
     const q = search.value.toLowerCase();
     renderGrid(allData.filter(i => i.title.toLowerCase().includes(q)));
 };
 
-/* RENDER */
 function renderFeatured(list) {
     featured.innerHTML = "";
     list.forEach(i => createCard(i, featured));
@@ -268,33 +253,24 @@ function createCard(item, parent) {
 
 /* PLAYER */
 function openItem(item) {
-    if (item.type === "movie") {
-        openPlayer(item.url);
-    } else {
-        openShow(item);
-    }
+    if (item.type === "movie") openMovie(item.url);
+    else openShow(item);
 }
 
-function openPlayer(url) {
-    frame.src = url;
+function openMovie(url) {
+    currentShow = null;
+    episodesBtn.style.display = "none";
+    sidebar.style.display = "none";
+
+    frame.src = "";
+    setTimeout(() => frame.src = url, 50);
+
     player.style.display = "flex";
 }
 
-function closePlayer() {
-    frame.src = "";
-    player.style.display = "none";
-    sidebar.style.display = "none";
-    if (document.fullscreenElement) document.exitFullscreen();
-}
-
-function toggleFullscreen() {
-    if (!document.fullscreenElement) player.requestFullscreen();
-    else document.exitFullscreen();
-}
-
-/* TV SHOWS */
 function openShow(show) {
     currentShow = show;
+    episodesBtn.style.display = "inline-block";
     sidebar.style.display = "flex";
     player.style.display = "flex";
 
@@ -307,41 +283,45 @@ function openShow(show) {
     });
 
     seasonSelect.onchange = () => loadSeason(+seasonSelect.value);
-    loadSeason(0); // AUTO LOAD SEASON 1
+    loadSeason(0);
 }
 
 function loadSeason(i) {
     episodesDiv.innerHTML = "";
     activeEpisodeEl = null;
 
-    const eps = currentShow.seasons[i].episodes;
-
-    eps.forEach((e, idx) => {
+    currentShow.seasons[i].episodes.forEach((e, idx) => {
         const div = document.createElement("div");
         div.className = "episode";
-        div.textContent = e.title;
+        div.textContent = `E${e.episode} • ${e.title}`;
 
         div.onclick = () => {
             if (activeEpisodeEl) activeEpisodeEl.classList.remove("active");
             div.classList.add("active");
             activeEpisodeEl = div;
-            openPlayer(e.url);
+            openMovie(e.url);
         };
 
         episodesDiv.appendChild(div);
 
-        // AUTO PLAY & HIGHLIGHT FIRST EPISODE
-        if (idx === 0) {
-            div.classList.add("active");
-            activeEpisodeEl = div;
-            openPlayer(e.url);
-        }
+        if (idx === 0) div.onclick();
     });
 }
 
-/* SIDEBAR */
 function toggleSidebar() {
+    if (!currentShow) return;
     sidebar.style.display = sidebar.style.display === "flex" ? "none" : "flex";
+}
+
+function closePlayer() {
+    frame.src = "";
+    player.style.display = "none";
+    sidebar.style.display = "none";
+}
+
+function toggleFullscreen() {
+    if (!document.fullscreenElement) player.requestFullscreen();
+    else document.exitFullscreen();
 }
 </script>
 

@@ -204,7 +204,7 @@ h3 {
 </div>
 
 <script>
-const DATA_URL = "https://cdn.jsdelivr.net/gh/VietRiceLord/RiceGames@main/moviejson/movie4.json";
+const SOURCES_URL = "https://cdn.jsdelivr.net/gh/VietRiceLord/RiceGames@main/moviejson/moviesources.json";
 
 let allData = [];
 let currentShow = null;
@@ -219,19 +219,22 @@ const sidebar = document.getElementById("sidebar");
 const episodesDiv = document.getElementById("episodes");
 const seasonSelect = document.getElementById("seasonSelect");
 
-/* INITIAL STATE SAFETY */
+/* INITIAL STATE */
 player.style.display = "none";
 sidebar.style.display = "none";
 frame.src = "";
 
-/* FETCH DATA */
-fetch(DATA_URL)
-.then(r => r.json())
-.then(data => {
-    allData = data;
-    renderFeatured(data.filter(i => i.featured));
-    renderGrid(data);
-});
+/* FETCH MASTER LIST OF JSONS */
+fetch(SOURCES_URL)
+    .then(r => r.json())
+    .then(urls => Promise.all(urls.map(url => fetch(url).then(r => r.json()))))
+    .then(results => {
+        // Merge all JSON data into a single array
+        allData = results.flat();
+        renderFeatured(allData.filter(i => i.featured));
+        renderGrid(allData);
+    })
+    .catch(err => console.error("Error loading JSONs:", err));
 
 /* SEARCH */
 search.oninput = () => {
@@ -258,7 +261,7 @@ function createCard(item, parent) {
     parent.appendChild(div);
 }
 
-/* OPEN */
+/* PLAYER */
 function openItem(item) {
     if (item.type === "movie") {
         openPlayer(item.url);
@@ -280,7 +283,6 @@ function closePlayer() {
     if (document.fullscreenElement) document.exitFullscreen();
 }
 
-/* FULLSCREEN */
 function toggleFullscreen() {
     if (!document.fullscreenElement) {
         player.requestFullscreen();
@@ -319,11 +321,12 @@ function loadSeason(i) {
     });
 }
 
-/* SIDEBAR */
+/* SIDEBAR TOGGLE */
 function toggleSidebar() {
     sidebar.style.display = sidebar.style.display === "flex" ? "none" : "flex";
 }
 </script>
+
 
 </body>
 </html>

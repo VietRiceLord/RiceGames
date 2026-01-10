@@ -1,0 +1,17 @@
+[
+  {
+    "type": "movie",
+    "title": "A Silent Voice (Dub)",
+    "poster": "https://cdn.jsdelivr.net/gh/VietRiceLord/RiceGames@main/movielogo/SVD.jpeg",
+    "url": "https://go.screenpal.com/player/cOVQfpnrthl?ff=1&title=0&controls=0",
+    "featured": true
+  },
+  {
+    "type": "movie",
+    "title": "Mr Peabody And Shermen (Dub)",
+    "poster": "https://cdn.jsdelivr.net/gh/VietRiceLord/RiceGames@main/movielogo/IMG_2099.jpeg",
+    "url": "https://go.screenpal.com/player/cOVQhfnrtiS?ff=1&title=0",
+    "featured": true
+  },
+]
+

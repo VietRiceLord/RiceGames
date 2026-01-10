@@ -1,0 +1,50 @@
+{
+  "type": "tv",
+  "title": "Death Note",
+  "poster": "https://cdn.jsdelivr.net/gh/VietRiceLord/RiceGames@main/movielogo/DeathNote.jpeg",
+  "featured": true,
+  "seasons": [
+    {
+      "season": 1,
+      "episodes": [
+        { "title": "Rebirth", "url": "https://files.catbox.moe/2oq6pi.mp4" },
+        { "title": "Confrontation", "url": "https://files.catbox.moe/ez64mo.mp4" },
+        { "title": "Dealings", "url": "https://files.catbox.moe/162gg1.mp4" },
+        { "title": "Pursuit", "url": "https://files.catbox.moe/gfptob.mp4" },
+        { "title": "Tactics", "url": "https://files.catbox.moe/3q86ww.mp4" },
+        { "title": "Unraveling", "url": "https://files.catbox.moe/riov5l.mp4" },
+        { "title": "Overcast", "url": "https://files.catbox.moe/gdise5.mp4" },
+        { "title": "Glare", "url": "https://files.catbox.moe/y40uo8.mp4" },
+        { "title": "Encounter", "url": "https://files.catbox.moe/8hgdcb.mp4" },
+        { "title": "Doubt", "url": "https://files.catbox.moe/xv30ey.mp4" },
+        { "title": "Assault", "url": "https://files.catbox.moe/rhryzp.mp4" },
+        { "title": "Love", "url": "https://files.catbox.moe/b3h0kn.mp4" },
+        { "title": "Confession", "url": "https://files.catbox.moe/o0sr7x.mp4" },
+        { "title": "Friend", "url": "https://files.catbox.moe/w4bjas.mp4" },
+        { "title": "Wager", "url": "https://files.catbox.moe/u8ljz5.mp4" },
+        { "title": "Decision", "url": "https://files.catbox.moe/aj9urz.mp4" },
+        { "title": "Execution", "url": "https://files.catbox.moe/xhzq5x.mp4" },
+        { "title": "Ally", "url": "https://files.catbox.moe/jm8vbu.mp4" },
+        { "title": "Matsuda", "url": "https://files.catbox.moe/tv4v10.mp4" },
+        { "title": "Makeshift", "url": "https://files.catbox.moe/l34iwd.mp4" },
+        { "title": "Performance", "url": "https://files.catbox.moe/psvpn9.mp4" },
+        { "title": "Guidance", "url": "https://files.catbox.moe/ccr9c8.mp4" },
+        { "title": "Frenzy", "url": "https://files.catbox.moe/sggcu2.mp4" },
+        { "title": "Revival", "url": "https://files.catbox.moe/p03j85.mp4" },
+        { "title": "Silence", "url": "https://files.catbox.moe/44rtjs.mp4" },
+        { "title": "Renewal", "url": "https://files.catbox.moe/mn46fg.mp4" },
+        { "title": "Abduction", "url": "https://files.catbox.moe/s0gpr6.mp4" },
+        { "title": "Impatience", "url": "https://files.catbox.moe/lhjvqp.mp4" },
+        { "title": "Father", "url": "https://files.catbox.moe/z8d5ej.mp4" },
+        { "title": "Justice", "url": "https://files.catbox.moe/aj8fxt.mp4" },
+        { "title": "Transfer", "url": "https://files.catbox.moe/1dkklb.mp4" },
+        { "title": "Selection", "url": "https://files.catbox.moe/wvwj0b.mp4" },
+        { "title": "Scorn", "url": "https://files.catbox.moe/iqq3l0.mp4" },
+        { "title": "Vigilance", "url": "https://files.catbox.moe/qh9rux.mp4" },
+        { "title": "Malice", "url": "https://files.catbox.moe/eaxna8.mp4" },
+        { "title": "1.28", "url": "https://files.catbox.moe/0vggvf.mp4" },
+        { "title": "New World", "url": "https://files.catbox.moe/io0xgm.mp4" }
+      ]
+    }
+  ]
+}

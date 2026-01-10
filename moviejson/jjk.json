@@ -1,0 +1,29 @@
+{
+  "type": "tv",
+  "title": "Jujutsu Kaisen",
+  "poster": "https://cdn.jsdelivr.net/gh/VietRiceLord/RiceGames@main/movielogo/jjk.webp",
+  "featured": true,
+  "seasons": [
+    {
+      "season": 1,
+      "episodes": [
+        { "title": "Ryomen Sukuna", "url": "https://files.catbox.moe/xskmnw.mp4" },
+        { "title": "For Myself", "url": "https://files.catbox.moe/k8tji2.mp4" },
+        { "title": "Girl Of Steel", "url": "https://files.catbox.moe/dr84i6.mp4" },
+        { "title": "Cursed Womb Must Die", "url": "https://files.catbox.moe/plrf5w.mp4" },
+        { "title": "Cursed Womb Must Die 2", "url": "https://files.catbox.moe/gdaq6z.mp4" },
+        { "title": "After Rain", "url": "https://files.catbox.moe/odljkp.mp4" },
+        { "title": "Assualt", "url": "https://files.catbox.moe/s5wi35.mp4" },
+        { "title": "Boredom", "url": "https://files.catbox.moe/q4nejx.mp4" },
+        { "title": "Small Fry and Reverse Retribution", "url": "https://files.catbox.moe/hxff5q.mp4" },
+        { "title": "Idle Transfiguration", "url": "https://files.catbox.moe/tkrkb4.mp4" },
+        { "title": "Narrowed Minded", "url": "https://files.catbox.moe/jl6h96.mp4" },
+        { "title": "To You, Someday", "url": "https://files.catbox.moe/vmawjc.mp4" },
+        { "title": "Tomorrow", "url": "https://files.catbox.moe/wug3xm.mp4" },
+        { "title": "Kyoto Sister School Exchange Event", "url": "https://files.catbox.moe/daaabp.mp4" },
+        { "title": "Kyoto Sister School Exchange Event 1", "url": "https://files.catbox.moe/1m2s9g.mp4" },
+        { "title": "Kyoto Sister School Exchange Event 2", "url": "https://files.catbox.moe/ou7c2l.mp4" }
+      ]
+    }
+  ]
+}

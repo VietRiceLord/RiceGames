@@ -8,19 +8,28 @@
 <style>
 * { box-sizing: border-box; }
 
-body {
+html, body {
+    height: 100%;
     margin: 0;
+}
+
+body {
     font-family: Arial, sans-serif;
     color: #e6eaff;
     background: #070b16;
+    overflow-y: auto;
 }
 
+/* NAV */
 nav {
     padding: 16px 20px;
     background: rgba(15,25,55,0.6);
     backdrop-filter: blur(14px);
     display: flex;
     gap: 15px;
+    position: sticky;
+    top: 0;
+    z-index: 10;
 }
 
 #search {
@@ -61,8 +70,8 @@ h3 { padding: 0 20px; }
 }
 
 .card:hover {
-    transform: scale(1.07);
-    box-shadow: 0 0 25px rgba(100,180,255,.6);
+    transform: scale(1.05);
+    box-shadow: 0 0 25px rgba(100,180,255,.5);
 }
 
 .card img {
@@ -78,19 +87,23 @@ h3 { padding: 0 20px; }
     font-size: .9rem;
 }
 
-/* PLAYER */
+/* PLAYER OVERLAY */
 #player {
     display: none;
     position: fixed;
     inset: 0;
-    background: black;
+    background: #000;
     z-index: 50;
+    display: flex;
     flex-direction: column;
 }
 
+/* PLAYER TOP */
 #playerTop {
     padding: 10px;
     background: rgba(20,30,60,.85);
+    display: flex;
+    gap: 10px;
 }
 
 #playerTop button {
@@ -99,39 +112,55 @@ h3 { padding: 0 20px; }
     border: 1px solid rgba(120,180,255,.4);
     color: white;
     border-radius: 8px;
+    cursor: pointer;
 }
 
-#player iframe {
+/* PLAYER BODY */
+#playerBody {
     flex: 1;
-    width: 100%;
+    display: flex;
+    min-height: 0;
+}
+
+/* VIDEO */
+#frame {
+    flex: 1;
     border: none;
 }
 
-/* EPISODES */
-#episodeMenu {
-    display: none;
-    position: fixed;
-    inset: 0;
+/* EPISODE SIDEBAR */
+#episodeSidebar {
+    width: 320px;
     background: #070b16;
-    z-index: 60;
+    border-left: 1px solid rgba(120,180,255,.2);
+    display: none;
+    flex-direction: column;
 }
 
-#episodeMenuTop {
-    padding: 15px;
+/* SIDEBAR TOP */
+#episodeTop {
+    padding: 12px;
     display: flex;
     gap: 10px;
 }
 
 #seasonSelect {
-    padding: 10px;
+    flex: 1;
+    padding: 8px;
     background: #0e1630;
     color: white;
     border: 1px solid rgba(120,180,255,.4);
     border-radius: 8px;
 }
 
+/* EPISODE LIST (SCROLLABLE) */
+#episodes {
+    overflow-y: auto;
+    flex: 1;
+}
+
 .episode {
-    padding: 14px 20px;
+    padding: 14px;
     border-bottom: 1px solid rgba(120,180,255,.15);
     cursor: pointer;
 }
@@ -158,21 +187,24 @@ h3 { padding: 0 20px; }
 <div id="player">
     <div id="playerTop">
         <button onclick="closePlayer()">Back</button>
+        <button onclick="toggleEpisodes()">Episodes</button>
         <button onclick="toggleFullscreen()">Fullscreen</button>
     </div>
-    <iframe id="frame"
-        allow="autoplay; fullscreen"
-        allowfullscreen>
-    </iframe>
-</div>
 
-<!-- EPISODE MENU -->
-<div id="episodeMenu">
-    <div id="episodeMenuTop">
-        <button onclick="closeEpisodes()">Back</button>
-        <select id="seasonSelect"></select>
+    <div id="playerBody">
+        <iframe id="frame"
+            allow="autoplay; fullscreen"
+            allowfullscreen>
+        </iframe>
+
+        <!-- EPISODE SIDEBAR -->
+        <div id="episodeSidebar">
+            <div id="episodeTop">
+                <select id="seasonSelect"></select>
+            </div>
+            <div id="episodes"></div>
+        </div>
     </div>
-    <div id="episodes"></div>
 </div>
 
 <script>
@@ -184,9 +216,11 @@ let currentShow = null;
 const featured = document.getElementById("featured");
 const grid = document.getElementById("grid");
 const search = document.getElementById("search");
+
 const player = document.getElementById("player");
 const frame = document.getElementById("frame");
-const episodeMenu = document.getElementById("episodeMenu");
+
+const sidebar = document.getElementById("episodeSidebar");
 const episodesDiv = document.getElementById("episodes");
 const seasonSelect = document.getElementById("seasonSelect");
 
@@ -224,13 +258,13 @@ function createCard(item, parent) {
 function openItem(item) {
     if (item.type === "movie") {
         openPlayer(item.url);
+        sidebar.style.display = "none";
     } else {
-        openEpisodes(item);
+        openShow(item);
     }
 }
 
 function openPlayer(url) {
-    episodeMenu.style.display = "none";   // FIX
     frame.src = url;
     player.style.display = "flex";
 }
@@ -238,6 +272,7 @@ function openPlayer(url) {
 function closePlayer() {
     frame.src = "";
     player.style.display = "none";
+    sidebar.style.display = "none";
     if (document.fullscreenElement) document.exitFullscreen();
 }
 
@@ -246,12 +281,13 @@ function toggleFullscreen() {
     else document.exitFullscreen();
 }
 
-function openEpisodes(show) {
+/* TV SHOWS */
+function openShow(show) {
     currentShow = show;
-    episodeMenu.style.display = "block";
-    episodesDiv.innerHTML = "";
-    seasonSelect.innerHTML = "";
+    sidebar.style.display = "flex";
+    openPlayer(show.seasons[0].episodes[0].url);
 
+    seasonSelect.innerHTML = "";
     show.seasons.forEach((s, i) => {
         const o = document.createElement("option");
         o.value = i;
@@ -269,13 +305,13 @@ function loadSeason(i) {
         const div = document.createElement("div");
         div.className = "episode";
         div.textContent = e.title;
-        div.onclick = () => openPlayer(e.url); // FIX
+        div.onclick = () => openPlayer(e.url);
         episodesDiv.appendChild(div);
     });
 }
 
-function closeEpisodes() {
-    episodeMenu.style.display = "none";
+function toggleEpisodes() {
+    sidebar.style.display = sidebar.style.display === "flex" ? "none" : "flex";
 }
 </script>
 

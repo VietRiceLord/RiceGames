@@ -7,6 +7,13 @@
     "featured": true
   },
   {
+    "type": "movie",
+    "title": "Mr Peabody And Shermen (Dub)",
+    "poster": "https://cdn.jsdelivr.net/gh/VietRiceLord/RiceGames@main/movielogo/IMG_2099.jpeg",
+    "url": "https://go.screenpal.com/player/cOVQhfnrtiS?ff=1&title=0",
+    "featured": true
+  },
+  {
     "type": "tv",
     "title": "Death Note",
     "poster": "https://cdn.jsdelivr.net/gh/VietRiceLord/RiceGames@main/movielogo/DeathNote.jpeg",
@@ -67,9 +74,49 @@
             "title": "Confession",
             "url": "https://files.catbox.moe/o0sr7x.mp4"
           },
-           {
+          {
             "title": "Friend",
             "url": "https://files.catbox.moe/w4bjas.mp4"
+          }
+          {
+            "title": "Wager",
+            "url": "https://files.catbox.moe/u8ljz5.mp4"
+          },
+           {
+            "title": "Decision",
+            "url": "https://files.catbox.moe/aj9urz.mp4"
+          },
+           {
+            "title": "Execution",
+            "url": "https://files.catbox.moe/xhzq5x.mp4"
+          },
+           {
+            "title": "Ally",
+            "url": "https://files.catbox.moe/jm8vbu.mp4"
+          },
+          {
+            "title": "Matsuda",
+            "url": "https://files.catbox.moe/tv4v10.mp4"
+          },
+          {
+            "title": "Makeshift",
+            "url": "https://files.catbox.moe/l34iwd.mp4"
+          },
+           {
+            "title": "Performance",
+            "url": "https://files.catbox.moe/psvpn9.mp4"
+          },
+           {
+            "title": "Guidance",
+            "url": "https://files.catbox.moe/ccr9c8.mp4"
+          },
+           {
+            "title": "Frenzy",
+            "url": "https://files.catbox.moe/sggcu2.mp4"
+          },
+          {
+            "title": "Revival",
+            "url": "https://files.catbox.moe/p03j85.mp4"
           }
         ]
       }

@@ -3,43 +3,41 @@
   "title": "Jujutsu Kaisen",
   "poster": "https://cdn.jsdelivr.net/gh/VietRiceLord/RiceGames@main/movielogo/jjk.webp",
   "featured": true,
-  "seasons": [ 
+  "seasons": [
     {
       "season": 1,
       "episodes": [
-        { "title": "Ryomen Sukuna", "url": "https://files.catbox.moe/xskmnw.mp4" },
-        { "title": "For Myself", "url": "https://files.catbox.moe/k8tji2.mp4" },
-        { "title": "Girl Of Steel", "url": "https://files.catbox.moe/dr84i6.mp4" },
-        { "title": "Cursed Womb Must Die", "url": "https://files.catbox.moe/plrf5w.mp4" },
-        { "title": "Cursed Womb Must Die 2", "url": "https://files.catbox.moe/gdaq6z.mp4" },
-        { "title": "After Rain", "url": "https://files.catbox.moe/odljkp.mp4" },
-        { "title": "Assualt", "url": "https://files.catbox.moe/s5wi35.mp4" },
-        { "title": "Boredom", "url": "https://files.catbox.moe/q4nejx.mp4" },
-        { "title": "Small Fry and Reverse Retribution", "url": "https://files.catbox.moe/hxff5q.mp4" },
-        { "title": "Idle Transfiguration", "url": "https://files.catbox.moe/tkrkb4.mp4" },
-        { "title": "Narrowed Minded", "url": "https://files.catbox.moe/jl6h96.mp4" },
-        { "title": "To You, Someday", "url": "https://files.catbox.moe/vmawjc.mp4" },
-        { "title": "Tomorrow", "url": "https://files.catbox.moe/wug3xm.mp4" },
-        { "title": "Kyoto Sister School Exchange Event", "url": "https://files.catbox.moe/daaabp.mp4" },
-        { "title": "Kyoto Sister School Exchange Event 1", "url": "https://files.catbox.moe/1m2s9g.mp4" },
-        { "title": "Kyoto Sister School Exchange Event 2", "url": "https://files.catbox.moe/ou7c2l.mp4" },
-        { "title": "Kyoto Sister School Exchange Event 3", "url": "https://files.catbox.moe/v3asic.mp4" },
-        { "title": "Sage", "url": "https://files.catbox.moe/qzif6g.mp4" },
-       { "title": "Black Flash", "url": "https://files.catbox.moe/c1c0xb.mp4" },
-        { "title": "Nonstandard", "url": "https://files.catbox.moe/rz2yyp.mp4" },
-        { "title": "Jujutsu Koshien", "url": "https://files.catbox.moe/9xd5j9.mp4" },
-        { "title": "The Orgin Of Blind Obedience", "url": "https://files.catbox.moe/jkdfyf.mp4" },
-        { "title": "The Orgin Of Blind Obedience 2", "url": "https://files.catbox.moe/k2reu2.mp4" },
-        { "title": "Accomplices", "url": "https://files.catbox.moe/xlojei.mp4" }
+        { "episode": 1, "title": "Ryomen Sukuna", "url": "https://files.catbox.moe/xskmnw.mp4" },
+        { "episode": 2, "title": "For Myself", "url": "https://files.catbox.moe/k8tji2.mp4" },
+        { "episode": 3, "title": "Girl of Steel", "url": "https://files.catbox.moe/dr84i6.mp4" },
+        { "episode": 4, "title": "Cursed Womb Must Die", "url": "https://files.catbox.moe/plrf5w.mp4" },
+        { "episode": 5, "title": "Cursed Womb Must Die 2", "url": "https://files.catbox.moe/gdaq6z.mp4" },
+        { "episode": 6, "title": "After Rain", "url": "https://files.catbox.moe/odljkp.mp4" },
+        { "episode": 7, "title": "Assault", "url": "https://files.catbox.moe/s5wi35.mp4" },
+        { "episode": 8, "title": "Boredom", "url": "https://files.catbox.moe/q4nejx.mp4" },
+        { "episode": 9, "title": "Small Fry and Reverse Retribution", "url": "https://files.catbox.moe/hxff5q.mp4" },
+        { "episode": 10, "title": "Idle Transfiguration", "url": "https://files.catbox.moe/tkrkb4.mp4" },
+        { "episode": 11, "title": "Narrow-Minded", "url": "https://files.catbox.moe/jl6h96.mp4" },
+        { "episode": 12, "title": "To You, Someday", "url": "https://files.catbox.moe/vmawjc.mp4" },
+        { "episode": 13, "title": "Tomorrow", "url": "https://files.catbox.moe/wug3xm.mp4" },
+        { "episode": 14, "title": "Kyoto Sister School Exchange Event", "url": "https://files.catbox.moe/daaabp.mp4" },
+        { "episode": 15, "title": "Kyoto Sister School Exchange Event 1", "url": "https://files.catbox.moe/1m2s9g.mp4" },
+        { "episode": 16, "title": "Kyoto Sister School Exchange Event 2", "url": "https://files.catbox.moe/ou7c2l.mp4" },
+        { "episode": 17, "title": "Kyoto Sister School Exchange Event 3", "url": "https://files.catbox.moe/v3asic.mp4" },
+        { "episode": 18, "title": "Sage", "url": "https://files.catbox.moe/qzif6g.mp4" },
+        { "episode": 19, "title": "Black Flash", "url": "https://files.catbox.moe/c1c0xb.mp4" },
+        { "episode": 20, "title": "Nonstandard", "url": "https://files.catbox.moe/rz2yyp.mp4" },
+        { "episode": 21, "title": "Jujutsu Koshien", "url": "https://files.catbox.moe/9xd5j9.mp4" },
+        { "episode": 22, "title": "The Origin of Blind Obedience", "url": "https://files.catbox.moe/jkdfyf.mp4" },
+        { "episode": 23, "title": "The Origin of Blind Obedience 2", "url": "https://files.catbox.moe/k2reu2.mp4" },
+        { "episode": 24, "title": "Accomplices", "url": "https://files.catbox.moe/xlojei.mp4" }
       ]
     },
     {
       "season": 2,
       "episodes": [
-        { "title": "Ryomen Sukuna", "url": "https://files.catbox.moe/xskmnw.mp4" }
+        { "episode": 1, "title": "Ryomen Sukuna (S2E1)", "url": "https://files.catbox.moe/xskmnw.mp4" }
       ]
-      
     }
   ]
 }
-

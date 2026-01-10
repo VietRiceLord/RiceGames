@@ -1,0 +1,79 @@
+[
+  {
+    "type": "movie",
+    "title": "A Silent Voice (Dub)",
+    "poster": "https://cdn.jsdelivr.net/gh/VietRiceLord/RiceGames@main/movielogo/SVD.jpeg",
+    "url": "https://go.screenpal.com/player/cOVQfpnrthl?ff=1&title=0&controls=0",
+    "featured": true
+  },
+  {
+    "type": "tv",
+    "title": "Death Note",
+    "poster": "https://cdn.jsdelivr.net/gh/VietRiceLord/RiceGames@main/movielogo/DeathNote.jpeg",
+    "featured": true,
+    "seasons": [
+      {
+        "season": 1,
+        "episodes": [
+          {
+            "title": "Rebirth",
+            "url": "https://files.catbox.moe/2oq6pi.mp4"
+          },
+          {
+            "title": "Confrontation",
+            "url": "https://files.catbox.moe/ez64mo.mp4"
+          },
+          {
+            "title": "Dealings",
+            "url": "https://files.catbox.moe/162gg1.mp4"
+          },
+          {
+            "title": "Pursuit",
+            "url": "https://files.catbox.moe/gfptob.mp4"
+          },
+          {
+            "title": "Tactics",
+            "url": "https://files.catbox.moe/3q86ww.mp4"
+          },
+          {
+            "title": "Unraveling",
+            "url": "https://files.catbox.moe/riov5l.mp4"
+          },
+          {
+            "title": "Overcast",
+            "url": "https://files.catbox.moe/gdise5.mp4"
+          },
+          {
+            "title": "Glare",
+            "url": "https://files.catbox.moe/y40uo8.mp4"
+          },
+          {
+            "title": "Encounter",
+            "url": "https://files.catbox.moe/8hgdcb.mp4"
+          },
+          {
+            "title": "Doubt",
+            "url": "https://files.catbox.moe/xv30ey.mp4"
+          },
+           {
+            "title": "Assault",
+            "url": "https://files.catbox.moe/rhryzp.mp4"
+          },
+           {
+            "title": "Love",
+            "url": "https://files.catbox.moe/b3h0kn.mp4"
+          },
+           {
+            "title": "Confession",
+            "url": "https://files.catbox.moe/o0sr7x.mp4"
+          },
+           {
+            "title": "Friend",
+            "url": "https://files.catbox.moe/w4bjas.mp4"
+          }
+        ]
+      }
+    ]
+  }
+]
+
